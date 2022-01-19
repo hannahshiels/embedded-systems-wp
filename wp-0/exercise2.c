@@ -3,6 +3,7 @@
 // Exercise 2
 // Submission code: XXXXXX 
 #include <stdio.h>
+
 // Main function in the program, one program argument supported
 // Print message and program argument
 void main(int argc,char*argv[]) {
