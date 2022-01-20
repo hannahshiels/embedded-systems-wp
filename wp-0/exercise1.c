@@ -6,6 +6,10 @@
 // Main function in the program, no program arguments supported
 
 void main(void) {
+    
+    //Variable declaration
+    const char *userMessage = "Hello World!\n";
+
     // Print a string to the compile 
-    printf("%s", "Hello World!\n");; 
+    printf("%s", userMessage); 
 }
