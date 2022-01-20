@@ -1,4 +1,4 @@
-// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels
+// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels, group: 06 __ (2022)
 // Work package 0
 // Exercise 3
 // Submission code: XXXXXX
