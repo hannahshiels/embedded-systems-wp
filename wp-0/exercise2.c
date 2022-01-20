@@ -1,4 +1,4 @@
-// (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels
+// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels
 // Work package 0
 // Exercise 2
 // Submission code: XXXXXX 
