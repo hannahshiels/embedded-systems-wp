@@ -12,8 +12,9 @@
 /**
  * Include Section
  */
+#include <math.h>
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 
 /**
  * Main Function
@@ -38,9 +39,10 @@ void main(void){
 
     //Save the input in the defined variable
     scanf("%d", &input);
+    input = (int) input;
 
     //Check if the user input is between 0-6 and prompt them otherwise
-    while (input < 1 || input > 5 /*|| !isdigit(input)*/)
+    while (input < 1 || input > 5 )
     {
         //prompt user to enter an input again
         printf("%s", errPrompt);
