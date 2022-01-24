@@ -12,9 +12,8 @@
 /**
  * Include Section
  */
-#include <math.h>
+
 #include <stdio.h>
-#include <stdlib.h>
 
 /**
  * Main Function
@@ -30,7 +29,8 @@ void main(void){
     const char *msg_3 = "No way, pizza is the best\n";   //This message corresponds to input number 3
     const char *msg_4 = "Go to hell, only ice cream\n";   //This message corresponds to input number 4
     const char *msg_5 = "I am the best\n";   //This message corresponds to input number 5
-    int input;   //User input will be saved in this variable
+    int input = 0;   //The value that users enters
+    int result = 0;    //The value that we save from the user input
 
     //Main Body
 
@@ -39,10 +39,9 @@ void main(void){
 
     //Save the input in the defined variable
     scanf("%d", &input);
-    input = (int) input;
 
     //Check if the user input is between 0-6 and prompt them otherwise
-    while (input < 1 || input > 5 )
+    while (input < 1 || input > 5)
     {
         //prompt user to enter an input again
         printf("%s", errPrompt);
@@ -73,3 +72,46 @@ void main(void){
         printf("%s", msg_5);
     }
 }
+
+
+
+
+/*#include <stdio.h>
+
+#define MAXC 1024   *//* read buffer max characters *//*
+
+int main (void) {
+
+    int input = 0;
+    char buf[MAXC];
+    // domainEntry *myDomains = buildDomainDB();
+
+    for (;;) {  *//* loop continually until valid input or EOF *//*
+        fputs  ("\nSelect top level domain:\n"
+                "  1-EDU\n"
+                "  2-COM\n"
+                "  3-ORG\n"
+                "  4-GOV\n"
+                "  5-MIL\n"
+                "  6-CN\n"
+                "  7-COM.CN\n"
+                "  8.CAN\n\n"
+                "choice: ", stdout);
+        char a = fgets (buf, MAXC, stdin);
+        if (!fgets (buf, MAXC, stdin)) {
+            fputs ("(user canceled input.)\n", stderr);
+            return 1;
+        }
+
+        if (*buf < '1' || '8' < *buf) { *//* check 1st char, validate range *//*
+            fputs (" error: invalid input\n", stderr);
+            continue;
+        }
+
+        input = *buf - '0';     *//* convert char to integer *//*
+        break;
+    }
+
+    printf ("\nvalid input: %d\n", input);
+}*/
+
