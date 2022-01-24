@@ -39,53 +39,52 @@ int isNumBetween = 1; // boolean for storing if "inputAsInt" is between a given 
 // Main function in the program, one program argument supported with errors handled
 void main(void)
 {
+    // Run the while loop while the input is a number and while it is between a given range
+    while (isNumber && isNumBetween)
+    {
+        printf("%s", INPUT_MESSAGE); // Print input message
+        scanf("%s", &input);         // Ask to enter a value.
 
-   // Run the while loop while the input is a number and while it is between a given range
-   while (isNumber && isNumBetween)
-   {
-      printf("%s", INPUT_MESSAGE); // Print input message
-      scanf("%s", &input);         // Ask to enter a value.
+        int inputAsInt = atoi(input);                    // Convert input to integer
+        isNumber = is_number(input);                     // Store boolean
+        isNumBetween = is_num_between(inputAsInt, 1, 5); // Store boolean
+        if (isNumber == 1 && isNumBetween == 1)          // Check if input is number && between a given range
+        {
+            int index = inputAsInt - 1; // EX: input of 1 will print index 0 in array
+            printf("%s", array[index]); // Print the related char array based on inputed number
+        }
+    }
 
-      int inputAsInt = atoi(input);                    // Convert input to integer
-      isNumber = is_number(input);                     // Store boolean
-      isNumBetween = is_num_between(inputAsInt, 1, 5); // Store boolean
-      if (isNumber == 1 && isNumBetween == 1)          // Check if input is number && between a given range
-      {
-         int index = inputAsInt - 1; // EX: input of 1 will print index 0 in array
-         printf("%s", array[index]); // Print the related char array based on inputed number
-      }
-   }
-
-   printf("%s", END_MESSAGE); // Print end-of-program message
+    printf("%s", END_MESSAGE); // Print end-of-program message
 }
 
 /**
  * This function checks if a value(val) is a number
- * RETURN 1(true) if val is a number, else false
+ * RETURN 1(true) if val is a number
  **/
 int is_number(char *val) // Why can't we say "val" instead?
 {
-   int isDigit = 0; // boolean
+    int isDigit = 0; // boolean
 
-   for (int i = 0; i < strlen(val); i++) // Check provided val
-   {
-      isDigit = isdigit(val[i]); // Check if current index is a number
+    for (int i = 0; i < strlen(val); i++) // Check provided val
+    {
+        isDigit = isdigit(val[i]); // Check if current index is a number
 
-      if (0 == isDigit)
-         return 0; // return 0 if detecting non-integer value
-   }
+        if (0 == isDigit)
+            return 0; // return 0 if detecting non-integer value
+    }
 
-   return 1; // else, return 1
+    return 1; // else, return 1
 }
 
 /**
  * This function checks if an integer is between a certain range(start, end)
- * RETURN 1(true) if i is between range, else false
+ * RETURN 1(true) if i is between range
  **/
 int is_num_between(int i, int start, int end)
 {
-   if (i >= start && i <= end) // check if i is withing start, end
-      return 1;                // return true if i is within range
+    if (i >= start && i <= end) // check if i is withing start, end
+        return 1;               // return true if i is within range
 
-   return 0; // else, return 0
+    return 0; // else, return 0
 }
