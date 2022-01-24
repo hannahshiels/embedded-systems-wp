@@ -12,6 +12,9 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
+
+
 
 /**
  * Define section
@@ -36,13 +39,16 @@ void main(void)
     int number;   //the random number is saved in here
     int guess;   //User's guess is saved in here
     int isFound = 0;   //changes into 1 if the number is correctly guessed by the user
-    int tryCounter = 0;   //counts the number of tries that user does
+    int tryCounter = 1;   //counts the number of tries that user does
 
 
 
 
     //main body
     //generate a random number between 0 and 100
+    long ltime = time(NULL);
+    int stime = (unsigned) ltime/2;
+    srand(stime);
     number  = rand() % 100;
     printf("%d", number);
 
@@ -53,9 +59,8 @@ void main(void)
     scanf("%d", &guess);
 
     //these steps happen as long as the number is not guessed by the user,or they run out of tries
-    while (isFound == 0 && tryCounter < MAX_NUMBER)
+    while (isFound == 0 && tryCounter < (MAX_NUMBER + 1) )
     {
-        tryCounter++;
         if (guess == number)
         {
             printf("%s \n %s %d\n", winnerMsg, tryNum, tryCounter);
@@ -73,6 +78,8 @@ void main(void)
             printf("%s \n %s %d\n", idiotErr, tryNum, tryCounter);
             scanf("%d", &guess);
         }
+
+        tryCounter++;
     }
 
     if (isFound == 0)
