@@ -19,7 +19,7 @@
  * Main Function
  */
 
-void main(void){
+int main(void){
 
     //Variable Declaration section
     const char *prompt = "Please enter a number between 1 and 5 to see you fortune...\n";   //This message will ask users for the input
@@ -71,6 +71,8 @@ void main(void){
     {
         printf("%s", msg_5);
     }
+
+    return 0;
 }
 
 

@@ -20,60 +20,63 @@
 #include <stdio.h>
 #include <string.h>
 
-void encryptMe(char* i);
+void encryptMe(char i);
+
+/**
+ * Define Section
+ */
+#define Shift 13   //shift amount for each letter in ASCII code to be encoded
+#define Max_Capacity 1024   //The maximum number of characters allowable to be entered by the user
 
 /**
  * Main body
  */
 
-void main(int argc,char*argv[])
+int main(void)
 {
     //variable declaration
     int i;   //will be used in the for loop as the index number
+    const char *prompt = "Enter the word you want to encode:\n";
+    char input[Max_Capacity];
+
 
     //Code body
-
-    //Iterate over the word received in the argument and switch the characters with encoded ones
-    for(i = 0; i < strlen(argv[1]); i++)
+    //keep asking the user for their input
+    while (input != '\n')
     {
-        //Switch each character with the encoded char
-        encryptMe(&argv[1][i]);
+        //ASk user to enter their word
+        printf("\n%s", prompt);
 
+        //Get the user input
+        scanf("%s", input);
+
+        //Iterate over the word received in the argument and switch the characters with encoded ones
+        for(i = 0; i < strlen(input); i++)
+        {
+            //Switch each character with the encoded char
+            encryptMe(input[i]);
+
+        }
     }
-    //printf("%s", argv[1]);
+
+    return 0;
 }
 
 /**
  * Auxiliary Methods
  */
 //Switches the chars with their equivalent encrypted chars
-void encryptMe(char* mainLetter) {
-    //Variable declaration
-    char firstRowLower[13] = "abcdefghijklm";
-    char secondRowLower[13] = "nopqrstuvwxyz";
-    int i;
-
-    //printf("%c", mainLetter);
-    for(i = 0; i < strlen(firstRowLower); i++)
+void encryptMe(char mainLetter)
+{
+    if ((mainLetter < 78 && mainLetter > 64) || (mainLetter < 110 && mainLetter > 96))
     {
-        //printf("%c", firstRowLower[i]);
-        if(&mainLetter == firstRowLower[i])
-        {
-            *mainLetter = secondRowLower[i];
-        }
+        mainLetter = mainLetter + Shift;
+    } else if ((mainLetter > 77 && mainLetter < 91) || (mainLetter > 109 && mainLetter < 123))
+    {
+        mainLetter = mainLetter - Shift;
     }
 
-    for(i = 0; i < strlen(secondRowLower); i++)
-    {
-        //printf("%c", secondRowLower[i]);
-        if(*mainLetter == secondRowLower[i])
-        {
-            *mainLetter = firstRowLower[i];
-        }
-    }
-
-    printf("%c", *mainLetter);
-
+    printf("%c", mainLetter);
 }
 
 
