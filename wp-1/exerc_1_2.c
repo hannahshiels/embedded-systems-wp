@@ -19,7 +19,7 @@
 
 // Variables
 const char *INPUT_MESSAGE = "\nEnter a text: ";
-char *RESULT_MESSAGE = "Encryption: ";
+const char *RESULT_MESSAGE = "Encryption: ";
 const int a = 97, z = 122, A = 65, Z = 90; // start and end codes for alphabet upper and lower-case
 const int ctrlZ = 64;                      // Code for ctrl+z input
 const int middle = 13;                     // middle of alphabet
@@ -27,6 +27,7 @@ int shift = 13;                            // how much to shift input characters
 
 // Define Functions:
 char *reverse_char_array(const char *input, char *result);
+void check_arguments(char *argv[]);
 
 /**
  * main method, which runs until user inputs ctrl+z
@@ -37,22 +38,25 @@ int main(int argc, char *argv[])
    check_arguments(argv);
 
    // Loop which allows user to enter a string and encrypt it with ROT13
-   while (1)
+   int loop = 1;
+   while (loop)
    {
       // Variables
       char input[MAX_INPUT]; // input for user;
 
-      printf("%s", INPUT_MESSAGE);                // print pre-input message
-      if (fgets(input, MAX_INPUT, stdin) == NULL) // get user input
+      // Get user input
+      printf("%s", INPUT_MESSAGE);
+      if (fgets(input, MAX_INPUT, stdin) == NULL) // if fgets returns NULL (i.e; If user enters "ctrl-z")
       {
-         return; // if fgets returns NULL (i.e; If user enters "ctrl-z"), return
+         loop = 0;
       }
-
-      char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
-      result = reverse_char_array(input, result); // "reverse" the users input, and save in result
-      printf("%s%s", RESULT_MESSAGE, result);     // print the result
-
-      free(result); // (?)
+      else
+      {
+         char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
+         result = reverse_char_array(input, result); // "reverse" the users input, and save in result
+         printf("%s%s", RESULT_MESSAGE, result);     // print the result
+         free(result);                               // free result from memory
+      }
    }
 
    return 0;
