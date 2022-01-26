@@ -33,3 +33,9 @@ The programs should be fail-safe, i.e.
 #include <stdlib.h> // atoi,
 #include <string.h> // strlen,
 #include <ctype.h>  // toUpperCase,
+
+int main(int argc, char *argv[])
+{
+   printf("The string is: %s\n", argv[1]);
+   return 0;
+}
