@@ -31,7 +31,7 @@
 // ------ Defines   ----------
 #define MAX 100        // Defines the max number
 #define LOW 1          // Defines the lowest number
-#define MAX_INPUT 5    // How many characters user is allowed to input
+#define MAX_INPUT 4    // How many characters user is allowed to input; is not set to 3 since
 #define MAX_NUMBER 100 // Max number of guesses
 
 // ------ Variables   ----------
@@ -69,7 +69,7 @@ void exit_continue(char *input, int *loop)
    // if fgets returns NULL (i.e; If user enters "ctrl-z")
    if (fgets(input, MAX_INPUT, stdin) == NULL)
    {
-      // set loop to false
+      // set loop to false/0
       loop = 0;
    }
 }
@@ -94,8 +94,7 @@ int main(void)
    while (loop) // loop which keeps going until user enters "ctrl-z"
    {
 
-      printf("%s", INPUT_MESSAGE); // print input message
-
+      printf("%s", INPUT_MESSAGE);    // print input message
       fgets(input, MAX_INPUT, stdin); // get user input
 
       // get input as int
@@ -106,21 +105,21 @@ int main(void)
 
       printf("%s%d%s", GUESS1, guesses, GUESS2); // print amount of guesses
 
+      // Display wrong input responses
       if (inputAsInt > MAX || inputAsInt < LOW) // input is too high or low,
       {
          printf("%s", BETWEEN); // print answer was not between range
       }
-
       else if (randNum < atoi(input)) // user guessed too high
       {
          printf("%s", HIGH_GUESS); // print too high guess
       }
-
       else if (randNum > atoi(input)) // user guessed too low
       {
          printf("%s", LOW_GUESS); // print too low guess
       }
 
+      // Handle loop-ending triggers with responses
       if (randNum == inputAsInt || guesses >= MAX_NUMBER) // if user guessed correctly || if user ran out of guesses
       {
          if (randNum == inputAsInt)         // if user guessed correctly
