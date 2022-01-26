@@ -27,7 +27,7 @@ void encryptMe(char i);
  */
 #define Shift 13   //shift amount for each letter in ASCII code to be encoded
 #define Max_Capacity 1024   //The maximum number of characters allowable to be entered by the user
-
+#define CTRL_Z 26
 /**
  * Main body
  */
@@ -42,7 +42,8 @@ int main(void)
 
     //Code body
     //keep asking the user for their input
-    while (input != '\n')
+    //TODO EOF ctrlZ is not there yet!
+    while (input[0] != 26)
     {
         //ASk user to enter their word
         printf("\n%s", prompt);
