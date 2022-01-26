@@ -17,10 +17,6 @@
 #include <string.h>
 #include <ctype.h>
 
-// Declare Functions
-int is_number(char *val);
-int is_num_between(int i, int start, int end);
-
 // Declare Constants
 const char *INPUT_MESSAGE = "\nPlease enter a value between 1-5: ";
 const char *END_MESSAGE = "\nThe program is shutting down...";
@@ -35,6 +31,10 @@ const char *array[] = { // Define an array with messages
 char input[10];       // A char array for storing user input
 int isNumber = 1;     // boolean for storing if "inputAsInt" is a number
 int isNumBetween = 1; // boolean for storing if "inputAsInt" is between a given range
+
+// Declare Functions
+int is_number(char *val);
+int is_num_between(int i, int start, int end);
 
 // Main function in the program, one program argument supported with errors handled
 void main(void)
