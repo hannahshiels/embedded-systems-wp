@@ -45,59 +45,81 @@ int main(int argc, char* argv[])
 
     //Body
 
-    //change the type of the argument from char into number
+    //change the type of the argument from char into long int
     input = atoi(argv[1]); //string to long
 
-    //save the arg in an int format to get values more than max long value
+    //save the arg in a long long format to get values more than max long value.
+    //According to the exercise description, the number should be a long. But to catch the errors in case the number is
+    //more than allowable long, we save the argumnet in a long long too, and display an error message with the return
+    //value 2.
     longChecker = atoi(argv[1]);
 
-    //To check if the argument is a number format
+    //Check if the argument is in a number format. To do this check, we need to have the argument value as int to be able
+    //to use it in isdigit method. Therefor there is another variable defined in type int to save the argument value in.
+    //Again, the value of input also could be int and input could have been used in all of these checks, but the description
+    //wants us to use long for input so that is why there are various variables defined.
     intChecker = *argv[1];
 
     //Check for errors
-    if (longChecker > Max_16bit_Num) {
+
+    if (longChecker > Max_16bit_Num) {   //if the number entered as the argument is more than the maximum long in C compiler
+        //display the relevant error to the user
         printf("%s", errMsg);
+        //exit with code number 2
         return 2;
 
-    } else if (isdigit(intChecker) == 0)
+    } else if (isdigit(intChecker) == 0)   //if the argument contains non digit values
     {
+        //display the relevant error
         printf("%s", errMsg2);
+        //exit with code 2
         return 2;
 
-    } else {
-        //if the argument is an 8bit binary
-        if (input <= Max_8bit_Num)
+    } else {   //if the argument is a regular decimal number
+
+        //Check the magnitude of the argument
+        if (input <= Max_8bit_Num)   //if the number's binary form is less than 8digits
         {
+            //convert the number displaying an 8 digit binary
             binConverter ( input, Short_Length_Binary);
 
-        } else if ( input <= Max_16bit_Num && input > Max_8bit_Num)  //if the number is a 16 bit binary
+        } else if ( input <= Max_16bit_Num && input > Max_8bit_Num)  //if the number's binary form is more than 8 digits
         {
+            //convert the number displaying an 16 digit binary
             binConverter ( input, Long_length_Binary);
-
         }
+        //exit with code 0
         return 0;
     }
 
 }
 
-void binConverter(long input, int arrayLength) {
-    int i;
-    int output[arrayLength];
 
+void binConverter(long input, int arrayLength) {
+    //variable declaration
+    int i;   //used in loops to keep the track of indices
+    int output[arrayLength];   //generate an array with the length needed to save the binary values
+
+    //empty the memory allocated to the output array by iterating over the array replace previous values with 0
     for (i = 0; i < arrayLength; i++)
     {
+        //place zero instead of the possible existing values
         output[i] = 0;
     }
 
+    //get the binary equivalent to the input by saving the remainders of the division of input over 2.
+    //The loop continues until the input value is so low that the result of input/2 is less than 1.
     for(i = 0; input > 0; i++)
     {
-        //get the remainder value of the number divided by 2 and store it
+        //get the remainder value of the number divided by 2 and store it in the output array
         output[i] = input % 2;
+        //next step
         input = input / 2;
     }
-    //print out binary format
+    //print out binary format of the input by starting from the last element in the output array
     for(i = (arrayLength - 1); i >= 0; i--)
     {
+        //prints out the values
         printf("%d",output[i]);
     }
 
