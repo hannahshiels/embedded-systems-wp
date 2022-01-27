@@ -43,7 +43,7 @@ int main(void)
     //Code body
     //keep asking the user for their input
     //TODO EOF ctrlZ is not there yet!
-    while (input[0] != 26)
+   // while (input[0] != 26)
     {
         //ASk user to enter their word
         printf("\n%s", prompt);

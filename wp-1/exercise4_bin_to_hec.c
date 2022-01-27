@@ -15,7 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 
-int isValid(char checker[]);
+int isValid(char *checker);
 
 /**
  * second code: Convert binary to hexadecimal value
@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
     int i = 1;
     unsigned long int output = 0;   //hexadecimal value will be saved in this
     unsigned long int remainder; //used in the process of conversion
-    int intChecker;   //used in err handling to capture irrelavant
+    int intChecker;   //used in err handling to capture irrelevant
     int validBinChecker = 0; //To check if the input is in binary. digits must be 0 & 1 only
     //body
 
@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
     }
 }
 
-int isValid(char checker[]) {
+int isValid(char *checker) {
 
     for (int i = 0; i < sizeof (checker); i++)
     {
