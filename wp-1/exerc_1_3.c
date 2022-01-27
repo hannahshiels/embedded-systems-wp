@@ -97,7 +97,7 @@ int main(void)
 
    while (loop) // loop which keeps going until user enters "ctrl-z"
    {
-
+      fflush(stdin);
       printf("%s", INPUT_MESSAGE);    // print input message
       fgets(input, MAX_INPUT, stdin); // get user input
 
