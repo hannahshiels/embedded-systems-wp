@@ -72,7 +72,7 @@ void exit_continue(char *input, int *loop)
    if (fgets(input, MAX_INPUT, stdin) == NULL)
    {
       // set loop to false/0
-      loop = 0;
+      *loop = 0;
    }
 }
 
