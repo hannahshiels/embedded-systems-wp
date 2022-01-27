@@ -6,10 +6,6 @@
 /**
  * This program calculates statistical values for an array of integers
  * It plots a histogram for the frequency of different numbers in the array.
- * 
- * 1. create an array of integers (table [MAX]), where MAX is the number of random numbers between 0 and MAXNUMBER
- * 2. frequency[] array
- * 3. ...
  **/
 
 // ------ Includes   ----------
@@ -18,13 +14,13 @@
 #include <stdlib.h> // atoi,
 #include <string.h> // strlen,
 #include <ctype.h>  // toUpperCase,
-#include <time.h>
+#include <time.h>   // time
 
 // ------ Defines   ----------
 
-#define MAX 100      // Defines the maximum number of the values in the table
+#define MAX 550      // Defines the maximum number of the values in the table
 #define MAXNUMBER 20 // Defines the maximum value of random numbers
-#define LOWNUMBER 1  // Defines the maximum value of random numbers
+#define LOWNUMBER 1  // Defines the minimum value of random numbers
 
 #define X "x" // marker for displaying number frequency
 
@@ -59,7 +55,7 @@ void create_random(int *tab)
 
 void count_frequency(int *tab, int *freq)
 {
-   int tempTable[MAX]; // for storing which numbers have been found
+   int tempTable[MAX]; // for storing which numbers have been found; found numbers are set to 0 later
 
    // loop for generating the temporary array
    for (size_t i = 0; i < MAX; i++)
@@ -107,7 +103,7 @@ void draw_histogram(int *freq)
       if (freq[i] != 0)
       {
          // print all numbers used in random number generation
-         printf("\n%d: ", i);
+         printf("\n%2d: ", i);
 
          // for the frequency amount of the current number,
          for (size_t j = 0; j < freq[i]; j++)
@@ -130,7 +126,7 @@ int main(void)
 
    // loop for resetting frequency array; removing bad memory
    for (size_t i = 0; i < MAXNUMBER; i++)
-      frequency[i] = -1; // set all integer values to -1
+      frequency[i] = 0; // set all integer values to -1
 
    srand(time(0)); // use the current time as seed for generating random numbers.
 

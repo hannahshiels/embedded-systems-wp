@@ -8,62 +8,44 @@
  * Only works on a-z and A-Z characters
  **/
 
-// Includes
+// ------ Includes   ----------
+
 #include <stdio.h>  // fgets,
 #include <stdlib.h> // atoi,
 #include <string.h> // strlen,
 #include <ctype.h>  // toUpperCase,
 
-// Defines
+// ------ Defines   ----------
+
 #define MAX_INPUT 26 // How many characters user is allowed to input
+#define MIDDLE 13    // middle of alphabet
+// start and end codes for alphabet upper and lower-case
+#define a 97
+#define z 122
+#define A 65
+#define Z 90
 
-// Variables
-const char *INPUT_MESSAGE = "\nEnter a text: ";
-const char *RESULT_MESSAGE = "Encryption: ";
-const int a = 97, z = 122, A = 65, Z = 90; // start and end codes for alphabet upper and lower-case
-const int ctrlZ = 64;                      // Code for ctrl+z input
-const int middle = 13;                     // middle of alphabet
-int shift = 13;                            // how much to shift input characters
+#define INPUT_MESSAGE "\nEnter a text: "
+#define RESULT_MESSAGE "Encryption: "
 
-// Define Functions:
+/**
+ * Variables
+ **/
+
+int shift = 13; // how much to shift input characters
+
+/**
+ * Function declarations
+ **/
+
+// This method returns a reversed character array
 char *reverse_char_array(const char *input, char *result);
+
+// for checking arguments
 void check_arguments(char *argv[]);
 
 /**
- * main method, which runs until user inputs ctrl+z
- **/
-int main(int argc, char *argv[])
-{
-   // Check arguments
-   check_arguments(argv);
-
-   // Loop which allows user to enter a string and encrypt it with ROT13
-   int loop = 1;
-   while (loop)
-   {
-      // Variables
-      char input[MAX_INPUT]; // input for user;
-
-      // Get user input
-      printf("%s", INPUT_MESSAGE);
-      if (fgets(input, MAX_INPUT, stdin) == NULL) // if fgets returns NULL (i.e; If user enters "ctrl-z")
-      {
-         loop = 0;
-      }
-      else
-      {
-         char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
-         result = reverse_char_array(input, result); // "reverse" the users input, and save in result
-         printf("%s%s", RESULT_MESSAGE, result);     // print the result
-         free(result);                               // free result from memory
-      }
-   }
-
-   return 0;
-}
-
-/**
- * Functions
+ * Function definitions
  **/
 
 void check_arguments(char *argv[])
@@ -75,7 +57,6 @@ void check_arguments(char *argv[])
    }
 }
 
-// This method returns a reversed character array
 char *reverse_char_array(const char *input, char *result)
 {
    strcpy(result, input); // copy input into result
@@ -85,15 +66,18 @@ char *reverse_char_array(const char *input, char *result)
    // Comparisons work based on character decimal codes
    while (*pRes != '\0')
    {
-      if ((*pRes >= a && *pRes <= z) || (*pRes >= A && *pRes <= Z)) // if character is between a-z and A-Z
+      // if character is between a-z and A-Z
+      if ((*pRes >= a && *pRes <= z) || (*pRes >= A && *pRes <= Z))
       {
-         if (*pRes >= (a + middle) || (*pRes >= (A + middle) && *pRes <= Z)) // if the character is in the last half of a-z and A-Z, shift it down(-)
+         // if the character is in the last half of a-z and A-Z, shift it down(-)
+         if (*pRes >= (a + MIDDLE) || (*pRes >= (A + MIDDLE) && *pRes <= Z))
          {
-            *pRes -= shift;
+            *pRes -= shift; // Shift the character down
          }
-         else // else, shift it up(+)
+         // else, shift it up(+)
+         else
          {
-            *pRes += shift;
+            *pRes += shift; // Shift the character up
          }
       }
 
@@ -101,4 +85,41 @@ char *reverse_char_array(const char *input, char *result)
    }
 
    return result;
+}
+
+/**
+ * main method, which runs until user inputs ctrl+z
+ **/
+int main(int argc, char *argv[])
+{
+   // variables
+   int loop = 1;
+
+   // Check arguments
+   check_arguments(argv);
+
+   // Loop which allows user to enter a string and encrypt it with ROT13
+   while (loop)
+   {
+      // Variables
+      char input[MAX_INPUT]; // input for user;
+
+      // Get user input
+      printf("%s", INPUT_MESSAGE);
+
+      // if fgets returns NULL (i.e; If user enters "ctrl-z")
+      if (fgets(input, MAX_INPUT, stdin) != NULL)
+      {
+         char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
+         result = reverse_char_array(input, result); // "reverse" the users input, and save in result
+         printf("%s%s", RESULT_MESSAGE, result);     // print the result
+         free(result);                               // free result from memory
+      }
+      else
+      {
+         loop = 0; // set loop to 0
+      }
+   }
+
+   return 0;
 }

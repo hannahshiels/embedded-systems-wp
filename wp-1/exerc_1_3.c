@@ -34,7 +34,9 @@
 #define MAX_INPUT 4    // How many characters user is allowed to input; is not set to 3 since
 #define MAX_NUMBER 100 // Max number of guesses
 
-// ------ Variables   ----------
+/**
+ * Variables
+ **/
 const char *INTRO_MESSAGE = "\nA random number between 1-100 has been generated";
 const char *INPUT_MESSAGE = "\nGuess the number: ";
 const char *LOW_GUESS = "\nYour guess is too low";
