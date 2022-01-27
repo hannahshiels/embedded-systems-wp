@@ -29,10 +29,10 @@
 #include <time.h>
 
 // ------ Defines   ----------
-#define MAX 100        // Defines the max number
-#define LOW 1          // Defines the lowest number
-#define MAX_INPUT 4    // How many characters user is allowed to input; is not set to 3 since
-#define MAX_NUMBER 100 // Max number of guesses
+#define MAX 100      // Defines the max number
+#define LOW 1        // Defines the lowest number
+#define MAX_INPUT 5  // How many characters user is allowed to input; is not set to 3 since
+#define MAX_NUMBER 3 // Max number of guesses
 
 /**
  * Variables
@@ -105,8 +105,6 @@ int main(void)
       // stops characters from passing as input; will transform ex: 12hello -> 12; ex hello12 -> 0
       int inputAsInt = atoi(input);
 
-      guesses++; // user guessed -> increase guesses
-
       printf("%s%d%s", GUESS1, guesses, GUESS2); // print amount of guesses
 
       // Display wrong input responses
@@ -116,25 +114,39 @@ int main(void)
       }
       else if (randNum < atoi(input)) // user guessed too high
       {
+         guesses++; // user guessed -> increase guesses
+
          printf("%s", HIGH_GUESS); // print too high guess
       }
       else if (randNum > atoi(input)) // user guessed too low
       {
+         guesses++; // user guessed -> increase guesses
+
          printf("%s", LOW_GUESS); // print too low guess
       }
 
       // Handle loop-ending triggers with responses
       if (randNum == inputAsInt || guesses >= MAX_NUMBER) // if user guessed correctly || if user ran out of guesses
       {
-         if (randNum == inputAsInt)         // if user guessed correctly
-            printf("%s%s", GUESS3, FINISH); // print success
+         guesses++; // user guessed -> increase guesses
 
-         if (guesses >= MAX_NUMBER)        // if user ran out of guesses
-            printf("%s", FINISH2, FINISH); // print ran out of guesses
+         if (randNum == inputAsInt) // if user guessed correctly
+            printf("%s%s", GUESS3); // print success
 
-         exit_continue(input, loop); // ask if exit or continue
+         if (guesses >= MAX_NUMBER) // if user ran out of guesses
+            printf("%s", FINISH2);  // print ran out of guesses
 
-         randNum = generate_random_number(randNum); // generate a new random number
+         // Set a pointer to loop
+         int *pLoop = &loop;
+
+         // Print finish message
+         printf("%s", FINISH);
+
+         // ask if exit or continue
+         exit_continue(input, pLoop);
+
+         // generate a new random number
+         randNum = generate_random_number(randNum);
 
          guesses = 0; // reset guesses
       }
