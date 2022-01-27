@@ -18,9 +18,9 @@
 
 // ------ Defines   ----------
 
-#define MAX 550      // Defines the maximum number of the values in the table
-#define MAXNUMBER 20 // Defines the maximum value of random numbers
-#define LOWNUMBER 1  // Defines the minimum value of random numbers
+#define MAX 5000      // Defines the maximum number of the values in the table
+#define MAXNUMBER 100 // Defines the maximum value of random numbers
+#define LOWNUMBER 1   // Defines the minimum value of random numbers
 
 #define X "x" // marker for displaying number frequency
 

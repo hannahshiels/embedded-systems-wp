@@ -110,10 +110,11 @@ int main(int argc, char *argv[])
       // if fgets returns NULL (i.e; If user enters "ctrl-z")
       if (fgets(input, MAX_INPUT, stdin) != NULL)
       {
-         char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
+         // char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
+         char *result;
          result = reverse_char_array(input, result); // "reverse" the users input, and save in result
          printf("%s%s", RESULT_MESSAGE, result);     // print the result
-         free(result);                               // free result from memory
+         // free(result);                               // free result from memory
       }
       else
       {

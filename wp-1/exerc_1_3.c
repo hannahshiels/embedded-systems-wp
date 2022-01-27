@@ -86,10 +86,12 @@ int main(void)
    // Variables
    char input[MAX_INPUT]; // input for user
    int guesses = 0;
-   int randNum = generate_random_number(randNum);
+   int randNum;
    int loop = 1;
 
    srand(time(0)); // use the current time as seed for generating random numbers.
+
+   randNum = generate_random_number(randNum); // generate random number
 
    printf("%s", INTRO_MESSAGE); // print intro message
 
@@ -108,7 +110,7 @@ int main(void)
       printf("%s%d%s", GUESS1, guesses, GUESS2); // print amount of guesses
 
       // Display wrong input responses
-      if (inputAsInt > MAX || inputAsInt < LOW) // input is too high or low,
+      if (inputAsInt > MAX || inputAsInt < LOW) // input is larger than 100 or lesser than 1
       {
          printf("%s", BETWEEN); // print answer was not between range
       }
