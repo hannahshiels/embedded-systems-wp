@@ -19,8 +19,15 @@
 /**
  * Define Section
  */
-#define Max_8bit_Num 255
-#define Max_16bit_Num 2147483647
+#define Max_8bit_Num 255   //Largest decimal number that had 8 digits as a binary number
+#define Max_16bit_Num 2147483647   //Largest number existing as lon in C compiler
+#define Short_Length_Binary 8   //The number of the digits displayed to user while their number is less than maximum 8 bit number
+#define Long_length_Binary 16   //The number of the digits displayed to user when their number is less than maximum 16 bit number
+
+
+//This method converts a decimal number into binary format and displays the results using the number and the array length
+//needed to save and show the results
+void binConverter(long input, int arrayLength);
 
 /**
 * first code: Convert a decimal number to binary format
@@ -29,20 +36,17 @@
 int main(int argc, char* argv[])
 {
     //Variable initiation
-    unsigned long long longChecker;   //To check the length of the number entered in the argument
-    const char *errMsg = "The number you entered is too big for this compiler. Try again later..";
-    const char *errMsg2 = "The value in the argument is not a number";
+    unsigned long long longChecker;   //To check if the number is in the allowable range of long type in C compiler
+    const char *errMsg = "The number you entered is too big for this compiler. Try again later..";   //Occurs when the argument magnitude is higher than maximum 16 bit
+    const char *errMsg2 = "The value in the argument is not a number";   //Occurs if the argument is a string
     int intChecker; //To check if the argument is a number
-    long int input;   //the decimal format entered as argument
-    long int output_8[8] = {0,0,0,0,0,0,0,0};   //the binary 8_bit format is saved here
-    long int output_16[16] = {0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0};   //the binary 16_bit format is saved here
-    int i;   //iteration counter in for-loop
+    long int input;   //the in format entered as argument
 
 
     //Body
 
     //change the type of the argument from char into number
-    input = atoi(argv[1]);
+    input = atoi(argv[1]); //string to long
 
     //save the arg in an int format to get values more than max long value
     longChecker = atoi(argv[1]);
@@ -54,44 +58,50 @@ int main(int argc, char* argv[])
     if (longChecker > Max_16bit_Num) {
         printf("%s", errMsg);
         return 2;
+
     } else if (isdigit(intChecker) == 0)
     {
         printf("%s", errMsg2);
         return 2;
+
     } else {
         //if the argument is an 8bit binary
         if (input <= Max_8bit_Num)
         {
-            //get the binary values of the number one by one and store them in the corresponding array
-            for(i = 0; input > 0; i++)
-            {
-                //get the remainder value of the number divided by 2 and store it
-                output_8[i] = input % 2;
-                input = input / 2;
-            }
-            //print out binary format
-            for(i = 7; i >= 0; i--)
-            {
-                printf("%ld",output_8[i]);
-            }
+            binConverter ( input, Short_Length_Binary);
+
         } else if ( input <= Max_16bit_Num && input > Max_8bit_Num)  //if the number is a 16 bit binary
         {
-            //Get the binary values of the number
-            for(i = 0; input > 0; i++)
-            {
-                //get the remainder value of the number divided by 2 and store it
-                output_16[i] = input % 2;
-                input = input / 2;
-            }
-            //print out binary format
-            for(i = 15; i >= 0; i--)
-            {
-                printf("%ld",output_16[i]);
-            }
+            binConverter ( input, Long_length_Binary);
 
         }
         return 0;
     }
 
 }
+
+void binConverter(long input, int arrayLength) {
+    int i;
+    int output[arrayLength];
+
+    for (i = 0; i < arrayLength; i++)
+    {
+        output[i] = 0;
+    }
+
+    for(i = 0; input > 0; i++)
+    {
+        //get the remainder value of the number divided by 2 and store it
+        output[i] = input % 2;
+        input = input / 2;
+    }
+    //print out binary format
+    for(i = (arrayLength - 1); i >= 0; i--)
+    {
+        printf("%d",output[i]);
+    }
+
+}
+
+
 
