@@ -28,6 +28,7 @@
 
 #define INPUT_MESSAGE "\nEnter a text: "
 #define RESULT_MESSAGE "Encryption: "
+#define INVALI_ARGUMENT "The shift size must be between 0 and 13. Please provide a valid shift size in the argument."
 
 /**
  * Variables
@@ -98,6 +99,16 @@ int main(int argc, char *argv[])
 
    // Check arguments
    check_arguments(argv);
+
+   //Check the shift magnitude. Since there are only 26 characters in the alphabet, the shift size cannot exceed 13 or
+   //it will show characters other than alphabet
+   if  (shift > 13 || shift < 0)
+   {
+       //print out the relevant error message
+       printf(INVALI_ARGUMENT);
+       //exits with code 1
+       return 1;
+   }
 
    // Loop which allows user to enter a string and encrypt it with ROT13
    while (loop)
