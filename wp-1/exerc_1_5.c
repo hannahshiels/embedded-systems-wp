@@ -102,5 +102,12 @@ int main(void)
    // run throuh methods in order to finally display a histogram of found random numbers with their frequency
    create_random(table);
    count_frequency(table, frequency);
+
+   for (size_t i = 0; i < MAX; i++)
+   {
+      printf(" ");
+      printf("%d", table[i]);
+   }
+
    draw_histogram(frequency);
 }
