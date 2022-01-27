@@ -18,9 +18,9 @@
 
 // ------ Defines   ----------
 
-#define MAX 5000      // Defines the maximum number of the values in the table
-#define MAXNUMBER 100 // Defines the maximum value of random numbers
-#define LOWNUMBER 1   // Defines the minimum value of random numbers
+#define MAX 100      // Defines the maximum number of the values in the table
+#define MAXNUMBER 20 // Defines the maximum value of random numbers
+#define LOWNUMBER 1  // Defines the minimum value of random numbers
 
 #define X "x" // marker for displaying number frequency
 
@@ -55,55 +55,24 @@ void create_random(int *tab)
 
 void count_frequency(int *tab, int *freq)
 {
-   int tempTable[MAX]; // for storing which numbers have been found; found numbers are set to 0 later
-
-   // loop for generating the temporary array
+   // for all numbers in the array,
    for (size_t i = 0; i < MAX; i++)
    {
-      tempTable[i] = -1; // initialize array to -1 to remove garbage
-   }
-
-   // from 1-100, loop through and check for duplicate numbers
-   for (size_t i = 0; i < MAX; i++)
-   {
-      int tabI = tab[i]; // store the active number
-      int count = 1;     // set count for number frequency; Initialize as 1 since we assume to always find a number in every index
-
-      // Check tab array from 1-100
-      for (size_t j = i + 1; j <= MAX; j++)
-      {
-         int tabJ = tab[j]; // store the active number
-
-         // if duplicate is found && the number hasn't been set as 0 through a previous loop iteration
-         if (tabI == tabJ && tempTable[i] != 0)
-         {
-            // increase the count if a duplicate has been found
-            count++;
-
-            // Set noticed number to 0, to keep track of which numbers have already been seen
-            tempTable[j] = 0;
-         }
-      }
-
-      // if the number has not already been seen and counted,
-      if (tempTable[i] != 0)
-      {
-         // store the count in freq array
-         freq[tabI] = count;
-      }
+      // Increase the count for the found number
+      freq[tab[i] - 1]++;
    }
 }
 
 void draw_histogram(int *freq)
 {
    // for MAXNUMBER, print the found randomized numbers and their frequencies
-   for (size_t i = 1; i <= MAXNUMBER; i++)
+   for (size_t i = 0; i < MAXNUMBER; i++)
    {
       // do not show frequencies of number 0
       if (freq[i] != 0)
       {
          // print all numbers used in random number generation
-         printf("\n%2d: ", i);
+         printf("\n%2d: ", (i + 1));
 
          // for the frequency amount of the current number,
          for (size_t j = 0; j < freq[i]; j++)
@@ -126,7 +95,7 @@ int main(void)
 
    // loop for resetting frequency array; removing bad memory
    for (size_t i = 0; i < MAXNUMBER; i++)
-      frequency[i] = 0; // set all integer values to -1
+      frequency[i] = 0; // set all integer values to 0
 
    srand(time(0)); // use the current time as seed for generating random numbers.
 
