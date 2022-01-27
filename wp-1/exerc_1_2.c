@@ -20,10 +20,10 @@
 #define MAX_INPUT 26 // How many characters user is allowed to input
 #define MIDDLE 13    // middle of alphabet
 // start and end codes for alphabet upper and lower-case
-#define a 97
-#define z 122
-#define A 65
-#define Z 90
+#define ASCII_A_LOW 97 // TODO change
+#define ASCII_Z_LOW 122
+#define ASCII_A 65
+#define ASCII_Z 90
 
 #define INPUT_MESSAGE "\nEnter a text: "
 #define RESULT_MESSAGE "Encryption: "
@@ -32,7 +32,7 @@
  * Variables
  **/
 
-int shift = 13; // how much to shift input characters
+int shift; // how much to shift input characters
 
 /**
  * Function declarations
@@ -67,10 +67,10 @@ char *reverse_char_array(const char *input, char *result)
    while (*pRes != '\0')
    {
       // if character is between a-z and A-Z
-      if ((*pRes >= a && *pRes <= z) || (*pRes >= A && *pRes <= Z))
+      if ((*pRes >= ASCII_A_LOW && *pRes <= ASCII_Z_LOW) || (*pRes >= ASCII_A && *pRes <= ASCII_Z))
       {
          // if the character is in the last half of a-z and A-Z, shift it down(-)
-         if (*pRes >= (a + MIDDLE) || (*pRes >= (A + MIDDLE) && *pRes <= Z))
+         if (*pRes >= (ASCII_A_LOW + MIDDLE) || (*pRes >= (ASCII_A + MIDDLE) && *pRes <= ASCII_Z))
          {
             *pRes -= shift; // Shift the character down
          }
@@ -110,11 +110,14 @@ int main(int argc, char *argv[])
       // if fgets returns NULL (i.e; If user enters "ctrl-z")
       if (fgets(input, MAX_INPUT, stdin) != NULL)
       {
-         // char *result = malloc(MAX_INPUT);           // allocate place to save reverse_char result
+         // allocate place to save reverse_char result
          char *result;
-         result = reverse_char_array(input, result); // "reverse" the users input, and save in result
-         printf("%s%s", RESULT_MESSAGE, result);     // print the result
-         // free(result);                               // free result from memory
+
+         // "reverse" the users input, and save in result
+         result = reverse_char_array(input, result);
+
+         // print the result
+         printf("%s%s", RESULT_MESSAGE, result);
       }
       else
       {
