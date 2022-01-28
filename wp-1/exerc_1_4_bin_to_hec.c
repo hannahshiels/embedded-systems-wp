@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels, group: 06 __ (2022)
 // Work package 1
 // Exercise 4
-// Submission code: XXXXXX
+// Submission code: 571006
 
 //You should write two programs, which convert between numbers in different format. You should make sure that these
 //programs can be executed in a pipeline.
@@ -13,6 +13,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+/**
+ * Define section
+ */
 
 int isValid(char *checker); //checks if the argument is in the binary format and the values are 0s & 1s
 
@@ -49,7 +53,8 @@ int main(int argc, char *argv[])
         //exit with code 2
         return 2;
     }
-    else if (isdigit(intChecker) == 0 || validBinChecker == 0) // check if the argument is a number and if it is, is it a valid binary number
+
+    if (isdigit(intChecker) == 0 || intChecker == 0) // check if the argument is a number and if it is, is it a valid binary number
     {
         //if the input is not according the above criteria, an error message is displayed
         printf("%s", errMsg);
@@ -58,7 +63,7 @@ int main(int argc, char *argv[])
     }
     else //if everything makes sense in the argument!
     {
-        input = atoi(argv[1]); //save the argument into a long type variable
+        input = atol(argv[1]); //save the argument into a long type variable
         i = 1;                 //start the loop with the value 1 since 2 to the power of 0 is 1
 
         //convert the binary to hexadecimal
@@ -79,16 +84,25 @@ int main(int argc, char *argv[])
 
 int isValid(char *checker)
 {
+    char *result = malloc(sizeof(checker)); // allocate place to save reverse_char result
+    strcpy(result, checker);                // copy input into result
+    char *pRes = result;                    // pointer for result
 
     //iterates over the elements existing in the pointer array and checks if they are sth other than 1s and 0s
-    for (int i = 0; i < sizeof(checker); i++)
+    for (int i = 0; i < strlen(checker); i++)
     {
-        if (checker[i] != '0' && checker[i] != '1') //if they are not 0 or 1
+        if (*pRes != '0' && *pRes != '1') //if they are not 0 or 1
         {
-            //isvalid is false
-            return 0;
+            return 0; //isvalid is false
+        }
+        else
+        {
+            pRes++; // increase pointer
         }
     }
+
+    free(result); // free result from memory
+
     //isvalid is true
     return 1;
 }
