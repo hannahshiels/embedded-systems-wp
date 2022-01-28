@@ -27,14 +27,14 @@ int isValid(char *checker); //checks if the argument is in the binary format and
 int main(int argc, char *argv[])
 {
     //variable declaration/initiation
-    const char *errMsg = "Invalid Input. Try again later. Use '-h' to view tutorial!";                  //will be displayed if the argument is invalid
-    const char *helpMsg = "Enter a binary value and receive the equivalent hexadecimal version of it."; //will be displayed if the user is seeking help
-    unsigned long input;                                                                                //the argument is saved in this variable as the type long
-    int i = 0;                                                                                          //used in the process of conversion from binary to decimal
-    unsigned long int output = 0;                                                                       //hexadecimal value will be saved in this
-    unsigned long int remainder = 0;                                                                    //used in the process of conversion from binary to decimal
-    int intChecker;                                                                                     //int variable to save the int version of the argument in it and check if the argument is a number
-    int validBinChecker;                                                                                //boolean variable to confirm the validation of the number in the argument
+    const char *errMsg = "Error: Invalid Input. Try again later. Use '-h' to view tutorial!";                 //will be displayed if the argument is invalid
+    const char *helpMsg = "Help: Enter a binary value and receive the equivalent hexadecimal version of it."; //will be displayed if the user is seeking help
+    unsigned long input;                                                                                      //the argument is saved in this variable as the type long
+    int i = 0;                                                                                                //used in the process of conversion from binary to decimal
+    unsigned long int output = 0;                                                                             //hexadecimal value will be saved in this
+    unsigned long int remainder = 0;                                                                          //used in the process of conversion from binary to decimal
+    int intChecker;                                                                                           //int variable to save the int version of the argument in it and check if the argument is a number
+    int validBinChecker;                                                                                      //boolean variable to confirm the validation of the number in the argument
 
     //body
 
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    if (isdigit(intChecker) == 0 || intChecker == 0) // check if the argument is a number and if it is, is it a valid binary number
+    if (validBinChecker == 0 || isdigit(intChecker) == 0 || intChecker == 0) // check if the argument is a number and if it is, is it a valid binary number
     {
         //if the input is not according the above criteria, an error message is displayed
         printf("%s", errMsg);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     }
     else //if everything makes sense in the argument!
     {
-        input = atol(argv[1]); //save the argument into a long type variable
+        input = atoi(argv[1]); //save the argument into a long type variable
         i = 1;                 //start the loop with the value 1 since 2 to the power of 0 is 1
 
         //convert the binary to hexadecimal
