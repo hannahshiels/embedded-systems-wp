@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels
 // Work package 1
 // Exercise 5
-// Submission code: XXXXXX
+// Submission code: 571006
 
 /**
  * This program calculates statistical values for an array of integers

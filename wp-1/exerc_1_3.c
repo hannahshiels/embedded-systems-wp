@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels
 // Work package 1
 // Exercise 3
-// Submission code: XXXXXX
+// Submission code: 571006
 
 /**
  * This program creates  a  random  integer  number,  between 1..100, 

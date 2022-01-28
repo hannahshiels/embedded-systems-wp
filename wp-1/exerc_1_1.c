@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 1
 // Exercise 1: If statements
-// Submission code: XXXXXX
+// Submission code: 571006
 
 /* Program to read integers on a interval from 1 - 5 and prints a  sentence depending on the number entered
 * Exits if number entered is out of range
