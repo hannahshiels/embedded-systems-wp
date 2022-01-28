@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels
 // Work package 1
 // Exercise 2
-// Submission code: XXXXXX
+// Submission code: 571006
 
 /**
  * This program shifts a string inputted by a user by 13 or by the amount supplied in an argument.
@@ -102,12 +102,12 @@ int main(int argc, char *argv[])
 
    //Check the shift magnitude. Since there are only 26 characters in the alphabet, the shift size cannot exceed 13 or
    //it will show characters other than alphabet
-   if  (shift > 13 || shift < 0)
+   if (shift > 13 || shift < 0)
    {
-       //print out the relevant error message
-       printf(INVALI_ARGUMENT);
-       //exits with code 1
-       return 1;
+      //print out the relevant error message
+      printf(INVALI_ARGUMENT);
+      //exits with code 1
+      return 1;
    }
 
    // Loop which allows user to enter a string and encrypt it with ROT13
@@ -124,12 +124,15 @@ int main(int argc, char *argv[])
       {
          // allocate place to save reverse_char result
          char *result;
+         result = malloc(MAX_INPUT);
 
          // "reverse" the users input, and save in result
          result = reverse_char_array(input, result);
 
          // print the result
          printf("%s%s", RESULT_MESSAGE, result);
+
+         free(result); // free result
       }
       else
       {
