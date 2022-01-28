@@ -105,8 +105,6 @@ int main(void)
       // stops characters from passing as input; will transform ex: 12hello -> 12; ex hello12 -> 0
       int inputAsInt = atoi(input);
 
-      printf("%s%d%s", GUESS1, guesses, GUESS2); // print amount of guesses
-
       // Display wrong input responses
       if (inputAsInt > MAX || inputAsInt < LOW) // input is larger than 100 or lesser than 1
       {
@@ -124,6 +122,8 @@ int main(void)
 
          printf("%s", LOW_GUESS); // print too low guess
       }
+
+      printf("%s%d%s", GUESS1, guesses, GUESS2); // print amount of guesses
 
       // Handle loop-ending triggers with responses
       if (randNum == inputAsInt || guesses >= MAX_NUMBER) // if user guessed correctly || if user ran out of guesses
