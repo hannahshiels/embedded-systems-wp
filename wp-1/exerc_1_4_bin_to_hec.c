@@ -15,8 +15,8 @@
 #include <ctype.h>
 
 /**
- * Define section
- */
+ * Function declarations
+ **/
 
 int isValid(char *checker); //checks if the argument is in the binary format and the values are 0s & 1s
 
