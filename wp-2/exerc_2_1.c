@@ -32,7 +32,9 @@
 
 // ------ Defines   ----------
 
-#define EXAMPLE = 911 // Example define
+#define MAX_INPUT 100
+#define INPUT_MESSAGE "Input the Robots starting position(x y): "     // Input message 1
+#define INPUT_MESSAGE "Your input was not correct. Input -h for help" // Input message 2
 
 // ------ Variables etc   ----------
 
@@ -64,9 +66,17 @@ void turn();
 
 // ------ Main   --------------------------
 // The main entry point for the program
-int main(void)
+int main(int argc, int *argv[])
 {
-   // ...
+   int loop = 1;
+   char input[MAX_INPUT];
+
+   while (loop)
+   {
+      fflush(stdin);                  // flush stdin
+      printf("%s", INPUT_MESSAGE);    // print input message
+      fgets(input, MAX_INPUT, stdin); // get user input
+   }
 }
 
 // ------ Function definitions   ----------
