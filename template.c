@@ -19,9 +19,15 @@
 
 #define EXAMPLE = 911 // Example define
 
-// ------ Variables   ----------
+// ------ Variables etc   ----------
 
 int exampleInt = 0;
+
+// ------ Structs   ----------
+
+typedef struct
+{
+};
 
 // ------ Function declarations   ----------
 
