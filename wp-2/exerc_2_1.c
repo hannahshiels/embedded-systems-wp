@@ -42,7 +42,7 @@ int exampleInt = 0;
 enum DIRECTION
 {
    N,
-   O,
+   E,
    S,
    W
 };
