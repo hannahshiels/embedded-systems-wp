@@ -66,7 +66,7 @@ void turn();
 
 // ------ Main   --------------------------
 // The main entry point for the program
-int main(int argc, int *argv[])
+int main(int argc, char *argv[])
 {
    int loop = 1;
    char input[MAX_INPUT];
@@ -76,6 +76,9 @@ int main(int argc, int *argv[])
       fflush(stdin);                  // flush stdin
       printf("%s", INPUT_MESSAGE);    // print input message
       fgets(input, MAX_INPUT, stdin); // get user input
+
+      // return 0;
+      loop = 0;
    }
 }
 
