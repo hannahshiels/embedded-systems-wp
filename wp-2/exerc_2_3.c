@@ -61,8 +61,7 @@ After entered the choice the program executes the task and returns to the menu f
 int exampleInt = 0;
 
 // ------ Structs   ----------
-typedef struct
-{
+typedef struct {
    char firstname[20];
    char famname[20];
    char pers_number[13]; // yyyymmddnnnc
@@ -78,8 +77,7 @@ void search_by_firstname(char *name);  // Prints out the person if in list
 void append_file(PERSON *inrecord);    // appends a new person to the file
 
 // ------ Main   --------------------------
-int main(void)
-{
+int main(void) {
    PERSON ppost;
 
    return (0);
@@ -87,7 +85,6 @@ int main(void)
 
 // ------ Function definitions   ----------
 
-void example_function()
-{
+void example_function() {
    // ...
 }
