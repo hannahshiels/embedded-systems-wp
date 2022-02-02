@@ -95,7 +95,7 @@ Node *random_list(void)
         item->prev = NULL;           // init values
         if (head->next == NULL)
         {
-            head->next = item; // if head doesn't a node, set it to item
+            head->next = item; // if head doesn't a next node, set it to item
             item->prev = head; // set head to previous of item
         }
         item->prev = old; // set previous of item to old
