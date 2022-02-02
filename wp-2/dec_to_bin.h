@@ -1,4 +1,4 @@
-void binConverter(long input, int arrayLength, char* outPut)
+void binConverter(long input, int arrayLength, char *outPut)
 {
     //variable declaration
     int i;   //used in loops to keep the track of indices
