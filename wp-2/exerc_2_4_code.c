@@ -4,13 +4,14 @@
 // Submission code: xxxxxx
 
 /**
- * This program ...
+ * This program recieves a string of length 5 with numbers between 0-4 in arguments and prints:
+ * 1. the binary value
+ * 2. the hexadecimal value
  **/
 
 // ------ Includes   ----------
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h> // strlen
 #include "dec_to_bin.h"
 #include <ctype.h>
@@ -35,7 +36,8 @@ int lengthChecker(char *argument);   //checks the length of the argument
 
 int formatChecker(char *string);   //checks the format of the argument to make sure it's a string
 
-int checkNums(unsigned int engine, unsigned int gear, unsigned int key, unsigned int brake2, unsigned int brake1);   //checks the value og the numbers in the argument
+int checkNums(unsigned int engine, unsigned int gear, unsigned int key, unsigned int brake2,
+              unsigned int brake1);   //checks the value og the numbers in the argument
 
 // ------ Main   --------------------------
 // The main entry point for the program
@@ -59,7 +61,7 @@ int main(int argc, char *argv[])
         printf(LENGTH_ERROR);
         //exit with code 1
         return 1;
-    } else if (formatChecker(argv[1]) != 0)   //checks the format of the argument
+    } else if (formatChecker(argv[1]) == 0)   //checks the format of the argument
     {
         //displays the relevant error
         printf(FORMAT_ERROR);
@@ -75,8 +77,7 @@ int main(int argc, char *argv[])
     brake2 = argv[1][4] - '0';   //convert the value from char to int
 
     //handle irrelevant numbers in the argument
-    if(checkNums(engine_on, gear_pos, key_pos, brake2, brake1) == 0)
-    {
+    if (checkNums(engine_on, gear_pos, key_pos, brake2, brake1) == 0) {
         //display relevant error
         printf(VALUE_ERROR);
         //exit the program
@@ -84,27 +85,31 @@ int main(int argc, char *argv[])
     }
 
     //put all the bits together in a byte with the order mentioned in assignment description
-    car = ((engine_on << ENGINE_BITS_SHIFT) | (gear_pos << GEAR_BITS_SHIFT) | (key_pos << KEY_BITS_SHIFT) | (brake1 << BRAKE1_BITS_SHIFT) | brake2);
+    car = ((engine_on << ENGINE_BITS_SHIFT) | (gear_pos << GEAR_BITS_SHIFT) | (key_pos << KEY_BITS_SHIFT) |
+           (brake1 << BRAKE1_BITS_SHIFT) | brake2);
 
     //get the binary value of the byte only for testing
-    binConverter((long)car, 8, binCar);
+    binConverter((long) car, 8, binCar);
 
     //print out the values in the binary form of the byte
-    for (int i = 0;  i < sizeof (binCar); i++)
-    {
+    for (int i = 0; i < sizeof(binCar); i++) {
         printf("%d", binCar[i]);   //print each bit as a number in the byte
     }
 
+    // TODO: remove:
     //print the size of teh byte to test if it's 1
-    printf("%s%llu",LENGTH_PROMPT, sizeof(car));
-    printf("%s%02lX",HEC_PROMPT, (long)car);
+    //   printf("%s%llu", LENGTH_PROMPT, sizeof(car));
+
+    // print Hexadecimal value
+    printf("%s%02lX", HEC_PROMPT, (long) car);
 }
 
 // ------ Function definitions   ----------
 
 int lengthChecker(char *argument) {
     //Get the length of the argument
-    if (strlen(argument) == ARGU_LENGTH)   //If the length is equal to 6 considering the last character to be /0
+    if (argument != NULL && // Stop NULL arguments
+        strlen(argument) == ARGU_LENGTH)   //If the length is equal to 6 considering the last character to be /0
     {
         //if the length is correct:
         return 1;
@@ -114,20 +119,25 @@ int lengthChecker(char *argument) {
 }
 
 int formatChecker(char *string) {   //to check the format of argumnet
-    //convert the argument into int to use it in isdigit function later
-    int intFormat = atoi(string);
+    // TODO: Remove: convert the argument into int to use it in isdigit function later
+    // TODO: Remove: int intFormat = atoi(string); // isDigit expects a string
 
-    //check the format
-    if(isdigit(intFormat) != 0)
-    {
-        //if it is a number:
-        return 1;
+    // for all characters in the string; https://www.geeksforgeeks.org/isalpha-isdigit-functions-c-example/
+    for (int i = 0; string[i] != '\0'; i++) {
+        //check the format
+        if (isdigit(string[i])) {
+            //if it is a number:
+            return 1;
+        }
+
     }
+
     //if it's not a number:
     return 0;
 }
 
-int checkNums(unsigned int engine, unsigned int gear, unsigned int key, unsigned int brake2, unsigned int brake1) {   //check the values in the argument
+int checkNums(unsigned int engine, unsigned int gear, unsigned int key, unsigned int brake2,
+              unsigned int brake1) {   //check the values in the argument
     if (engine != 1 && engine != 0)   //if engine value is not in th range
     {
         //return 0

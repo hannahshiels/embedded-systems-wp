@@ -4,7 +4,7 @@
 // Submission code: xxxxxx
 
 /**
- * This program ...
+ * This program decodes a hexadecimal value of size 2 (ex AB), and prints resulting values for a car
  **/
 
 // ------ Includes   ----------
@@ -13,7 +13,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "converter.h"
-#include<math.h>
+#include <math.h>
+#include <ctype.h> // isxdigit,
 
 // ------ Defines   ----------
 #define ARG_LENGTH 2   //The length of the argument as a hexadecimal number
@@ -56,11 +57,9 @@ int main(int argc, char *argv[])
 
     //Body
     //get the binary value from the hexadecimal format
-    for(i = 0; i < (strlen (argv[1])); i++)
-    {
+    for (i = 0; i < (strlen(argv[1])); i++) {
         //check if the characters are valid hexadecimal values
-        if(strcmp(hexToBin(argv[1][i]), "false") == 0)
-        {
+        if (!isxdigit(argv[1][i])) {
             //print the relevant err
             printf(INVALID_HEX);
             //exit the program
@@ -88,10 +87,9 @@ int main(int argc, char *argv[])
     engine_on = binToDec(getValue(&intCar, 1));
 
     //Show the result in console window
-    printf("\n%s %s\n\n%s\n",FINAL_PROMPT, argv[1], HEADER );
+    printf("\n%s %s\n\n%s\n", FINAL_PROMPT, argv[1], HEADER);
 
-    for(i = 0; i < 25; i++)
-    {
+    for (i = 0; i < 25; i++) {
         printf("-");
     }
     printf("\n%s          %d\n%s           %d\n%s            %d\n%s             %d\n%s             %d\n",
