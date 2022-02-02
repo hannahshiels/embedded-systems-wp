@@ -41,19 +41,8 @@ void append_file(PERSON *inrecord);    // appends a new person to the file
 // ------ Main   --------------------------
 int main(void)
 {
-  /*  PERSON ppost, *person;
-    person = &ppost;
-    // only using these right now to add as dummy record when option 1 is entered
-    printf("%s", "\nCreate a dummy record: ");
-    printf("%s", "\nEnter first name: ");
-    scanf("%s", person->firstname);
-    printf("%s", "Enter last name: ");
-    scanf("%s", person->famname);
-    printf("%s", "Enter personal number: ");
-    scanf("%s", person->pers_number);*/
-
-    start();
-    return (0);
+    start();    // start main program
+    return (0); // if everything works, return 0
 }
 
 // ------ Function definitions   ----------
@@ -65,44 +54,37 @@ void start(void)
     {
         printf("%s\n", MENU); // display menu options
         scanf("%d", &input);  // take user input
-        switch (input)
+        switch (input)        // check for different values of input
         {
         case 1:
         {
             PERSON ppost, *person;
-            person = &ppost;
-            // only using these right now to add as dummy record when option 1 is entered
-            printf("%s", "\nCreate a dummy record: ");
-            printf("%s", "\nEnter first name: ");
-            scanf("%s", person->firstname);
-            printf("%s", "Enter last name: ");
-            scanf("%s", person->famname);
-            printf("%s", "Enter personal number: ");
-            scanf("%s", person->pers_number);
-
-            write_new_file(person);
-            printf("%s", "\nCreated new file with dummy data!");
+            printf("%s", "\nCreate a dummy record: ");           // display message
+            ppost = input_record();                              // get person from user input
+            person = &ppost;                                     // pointer to the address of ppost
+            write_new_file(person);                              // call method to write to a new file
+            printf("%s", "\nCreated new file with dummy data!"); // display file created message
             break;
         };
         case 2:
         {
-            PERSON person = input_record();
-            PERSON *personP = &person;
-            append_file(personP);
+            PERSON person = input_record(); // get a person from user input
+            PERSON *personP = &person;      // pointer to the address of ppost
+            append_file(personP);           // call append file method
             break;
         };
         case 3:
         {
-            char str[] = "";
-            printf("%s", "\nEnter name to search by: ");
-            scanf("%s", &str);
-            search_by_firstname(str);
+            char str[] = "";                             // init str
+            printf("%s", "\nEnter name to search by: "); // display ask user for name to search message
+            scanf("%s", &str);                           // take string input
+            search_by_firstname(str);                    // call search by name method with user inputted string
             break;
         };
         case 4:
         {
-            printf("%s", "\nPrinting list...");
-            printfile();
+            printf("%s", "\nPrinting list..."); // display printing list message
+            printfile();                        // call print file method
             break;
         };
         case 5:
@@ -130,15 +112,16 @@ PERSON input_record(void) // Reads a person’s record.
     scanf("%s", person.pers_number);           // take string input and assign personal number
     return person;                             // return newly created person
 }
+
 void write_new_file(PERSON *inrecord) // Creates a file and writes the first record
 {
-    FILE *file = fopen(fileName, "wb");
-    if (file != NULL) // if file doesn't exist
+    FILE *file = fopen(fileName, "wb"); // open write connection to binary file
+    if (file != NULL)                   // if file doesn't exist
     {
         fwrite(inrecord, sizeof(PERSON) - 1, 1, file); // write record to file, ensuring garbage values aren't added
         fwrite("\n", sizeof(char), 1, file);           // add new line after record to file
     }
-    else
+    else // otherwise
     {
         printf("%s", "\n Something went wrong..."); // print error message
     }
@@ -173,9 +156,9 @@ void printfile(void) // Prints out all persons in the file
 void search_by_firstname(char *name) // Prints out the person if in list, can take either first name or last name
 {
     FILE *file = fopen(fileName, "rb"); // open read connection to binary file
-    int nr = 0;                         // counter for number of records found
-    int recordNr = 0;
-    if (file != NULL)
+    int nr = 0;                         // counter for number of matching records found
+    int recordNr = 0;                   // counter for number of records
+    if (file != NULL)                   // if file doesn't exist
     {
         PERSON person;                                  // init empty person
         while (fread(&person, sizeof(PERSON), 1, file)) // read file
@@ -190,13 +173,13 @@ void search_by_firstname(char *name) // Prints out the person if in list, can ta
                 printf("\nName: %s %s | Personal Number: %s", person.firstname, person.famname, person.pers_number); // print record
                 nr++;                                                                                                // increment nr
             }
-            recordNr++;
+            recordNr++; // increment number of records
         }
-        if (recordNr == 0)
-        {                                                       // if no records
+        if (recordNr == 0) // if no records
+        {
             printf("%s", "\nList is empty! Nothing to search"); // print list is empty message
         }
-        else if (nr == 0) // if nr of records is 0
+        else if (nr == 0) // if nr of matching records  is 0
         {
             printf("%s", "\nNo matches found!"); // display no matches found message
         }
@@ -207,6 +190,7 @@ void search_by_firstname(char *name) // Prints out the person if in list, can ta
     }
     fclose(file); // close connection to file
 }
+
 void append_file(PERSON *inrecord) // appends a new person to the file
 {
     FILE *file = fopen(fileName, "ab"); // open connection to binary file, to append records to
@@ -215,7 +199,7 @@ void append_file(PERSON *inrecord) // appends a new person to the file
         fwrite(inrecord, sizeof(PERSON) - 1, 1, file); // write record, ensuring no garbage characters
         fwrite("\n", 1, 1, file);                      // insert new line to file
     }
-    else
+    else // otherwise
     {
         printf("%s", "\n Something went wrong..."); // if file doesn't exist show error message
     }
