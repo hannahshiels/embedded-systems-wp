@@ -122,7 +122,7 @@ void start(PERSON *inrecord)
         case 3:
         {
             char str[] = "";
-            printf("%s","\nEnter first name to search by: ");
+            printf("%s","\nEnter name to search by: ");
             scanf("%s", &str);
             search_by_firstname(str);
             break;
@@ -167,7 +167,7 @@ void write_new_file(PERSON *inrecord) // Creates a file and writes the first rec
     }
     else
     {
-        printf("%s", "\n Something went wrong...");
+        printf("%s", "\n Something went wrong..."); // print error message
     }
 
     fclose(file);
@@ -193,8 +193,7 @@ void printfile(void) // Prints out all persons in the file
     fclose(file);
 }
 
-// TODO
-void search_by_firstname(char *name) // Prints out the person if in list
+void search_by_firstname(char *name) // Prints out the person if in list, can take either first name or last name
 {
     FILE *file = fopen(fileName, "rb");
     int nr = 0;
