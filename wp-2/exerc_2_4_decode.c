@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     int brake2;   //to save the value allocated to brake2
 
     //Error handling
-    if (strlen(argv[1]) != ARG_LENGTH)   //check for the size of the argument
+    if (argv[1] == NULL || strlen(argv[1]) != ARG_LENGTH)   //check for the size of the argument
     {
         //display the relevant error in the console
         printf(LENGTH_ERR);

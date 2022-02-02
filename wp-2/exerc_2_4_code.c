@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
 int lengthChecker(char *argument) {
     //Get the length of the argument
-    if (argument != NULL && // Stop NULL arguments
+    if (argument != NULL || // Stop NULL arguments
         strlen(argument) == ARGU_LENGTH)   //If the length is equal to 6 considering the last character to be /0
     {
         //if the length is correct:
