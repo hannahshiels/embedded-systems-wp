@@ -71,6 +71,7 @@ void turn(ROBOT *robot);
 void getInput(char *inputMessage, char *input, int maxInput);
 
 // This function enables printf in Clion while debugging
+// https://stackoverflow.com/questions/47776094/clion-wont-show-output-in-debug
 void enablePrintf();
 
 // ------ Main   --------------------------
