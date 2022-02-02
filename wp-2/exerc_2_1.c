@@ -73,9 +73,11 @@ typedef struct {
 // ------ Function declarations   ----------
 
 // This method handles user input, and handles the robots starting position
+// returns 1 if function is successfull, otherwise 0
 int handlePositionInput(ROBOT *robot);
 
 // This method handles user input, and handles the robots direction and heading(turning and moving forward)
+// returns 1 if function is successfull, otherwise 0
 int handleDirectionInput(ROBOT *robot);
 
 // This function moves the robot 1 time forward, by changing its x and y values (changed based on robots direction)
@@ -85,6 +87,7 @@ void move(ROBOT *robot);
 void turn(ROBOT *robot);
 
 // This function prints input message, and gets user input
+// returns 1 if function is successfull, otherwise 0
 int getInput(char *inputMessage, char *input, int maxInput);
 
 // This function enables printf in Clion while debugging
@@ -103,13 +106,13 @@ int main(int argc, char *argv[]) {
 
       // 1. manage robot starting position, end if function returns 0
       if (handlePositionInput(&robot) == 0)
-         return 0;
+         return 2;
 
       // 2. manage robots movement and turning, end if function returns 0
       if (handleDirectionInput(&robot) == 0)
-         return 0;
+         return 2;
 
-      // 3. print robots final position
+      // 3. print robots position
       printf("%sX = %d; Y = %d", FINISH_MESSAGE, robot.xpos, robot.ypos);
 
    }
@@ -127,7 +130,7 @@ int handlePositionInput(ROBOT *robot) {
    while (!correctPosInput) {
       int loop = 0; // set loop to 0
 
-      // Get input for start pos
+      // get input for start pos if getInput is true, else return 0;
       if (getInput(INPUT_MESSAGE_1, startPosInput, MAX_INPUT_POS) == 0)
          return 0;
 
@@ -169,7 +172,7 @@ int handleDirectionInput(ROBOT *robot) {
    // create a pointer to dirInput
    const char *pDirInput = dirInput;
 
-   // get input for direction
+   // get input for direction if getInput is true, else return 0;
    if (getInput(INPUT_MESSAGE_2, dirInput, MAX_INPUT_DIR) == 0)
       return 0;
 
@@ -222,7 +225,7 @@ int getInput(char *inputMessage, char *input, const int maxInput) {
    // get user input
    fgets(input, maxInput, stdin);
 
-   // if 'x' is inputted, set main loop boolean to false
+   // if 'x' is inputted, return 0
    if (strcmp(input, END_CHARACTER) == 0)
       return 0;
 
