@@ -28,30 +28,37 @@ typedef struct Node
 
 // ------ Function declarations   ----------
 
-Node *random_list(void); // This function generates a set of random numbers
+// This function generates a set of random numbers and adds them to a list
+Node *random_list(void);
+
+// This function adds 'data' to the first position in the list
 Node *add_first(Node *temp, int data);
-int get_random_number(void); // get a random number from 0 to 100
+
+// get a random number from 0 to 100
+int get_random_number(void);
 
 // ------ Main   --------------------------
 // The main entry point for the program
 int main(int argc, char *argv[])
 {
-    int nr = 0;
+    int nr = 0; // node number
+    Node *act_post;
+    Node *head = NULL;
 
-    Node *act_post, *head = NULL;
+    srand(time(0));   // Random seed
+    head = random_list();       // Create a random linked list
+    act_post = head;            // Make a copy of the head linked list
 
-    srand(time(0)); //   Random seed
-    head = random_list();
-    act_post = head;
+    // while there are elements in the list, print them.
     while (act_post != NULL)
     {
         printf("\n Post nr %d : %d", nr++, act_post->number);
-        act_post = act_post->next;
+        act_post = act_post->next; // Point to next Node in list
     }
 
     head = add_first(head, 101); // insert new node and set to new head
-    act_post = head;             // reset pointer to head
-    nr = 0;                      // reset number
+    act_post = head;                        // reset pointer to head
+    nr = 0;                                 // reset number
 
     while (act_post != NULL)
     {
@@ -60,7 +67,6 @@ int main(int argc, char *argv[])
     }
 
     // --- Free the allocated memory  ---
-
     while ((act_post = head) != NULL)
     {
         head = act_post->next;
@@ -75,7 +81,7 @@ int main(int argc, char *argv[])
 Node *random_list(void)
 {
     // init variables for the loop
-    int nr, i = 0;
+    int nr, i = 0; // for storing random number
     Node *head, *old, *item;
 
     head = malloc(sizeof(Node)); // allocate memory
@@ -96,7 +102,6 @@ Node *random_list(void)
         if (head->next == NULL)
         {
             head->next = item; // if head doesn't a next node, set it to item
-            item->prev = head; // set head to previous of item
         }
         item->prev = old; // set previous of item to old
         old->next = item; // set next to item
