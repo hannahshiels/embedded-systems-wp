@@ -30,6 +30,6 @@ add_executable(WP2_2
 add_executable(WP2_3
         wp-2/exerc_2_3.c)
 add_executable(WP2_4_code
-        wp-2/exerc_2_4_code.c wp-2/dec_to_bin.c )
+        wp-2/exerc_2_4_code.c)
 add_executable(WP2_4_decode
-        wp-2/exerc_2_4_decode.c wp-2/converter.c )
+        wp-2/exerc_2_4_decode.c)
