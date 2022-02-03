@@ -1,2 +1,5 @@
 *.exe
 /.vscode/
+/.idea/
+cmake-build-debug/
+*.clang-format
