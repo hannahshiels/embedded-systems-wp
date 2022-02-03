@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 2
 // Exercise 4
-// Submission code: xxxxxx
+// Submission code: 653025
 
 /**
  * This program decodes a hexadecimal value of size 2 (ex AB), and prints resulting values for a car
