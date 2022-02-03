@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 
     // print Hexadecimal value
     printf("%s%02lX", HEC_PROMPT, (long) car);
+    return 0;
 }
 
 // ------ Function definitions   ----------
