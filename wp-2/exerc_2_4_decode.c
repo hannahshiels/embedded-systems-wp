@@ -20,6 +20,7 @@
 #define ARG_LENGTH 2   //The length of the argument as a hexadecimal number
 #define LENGTH_ERR "\nThe length of the argument is not correct. Enter a 2 character length argument."   //when the argument size is not correct
 #define INVALID_HEX "\nThe entered argument is not a hexadecimal number. Please try again.."   //In case the argument contains other letters
+#define VALUE_ERR "\nThe values entered in the argument are invalid for some components of the car. Try again..."   //In case the values are not in the range
 #define NUMBER_OF_BITS 8   //number of bits in a single byte
 #define FINAL_PROMPT "Decode"   //shows when the arg is decoded
 #define HEADER "Name             Value"   //header of the result's table
@@ -31,8 +32,11 @@
 // ------ Function declarations   ----------
 
 int getValue(int *car, int i);
+int valueChecker(int brake2, int brake1, int pos, int pos1, int on);
 
 // ------ Main   --------------------------
+
+
 
 int main(int argc, char *argv[])
 {
@@ -86,6 +90,15 @@ int main(int argc, char *argv[])
     //get the engin status
     engine_on = binToDec(getValue(&intCar, 1));
 
+    //Error handling for the values of each component
+    if (valueChecker(brake2, brake1,key_pos,gear_pos, engine_on) == 0)
+    {
+        //print out the relevant err
+        printf("%s", VALUE_ERR);
+        //exit the program with code 1
+        return 1;
+    }
+
     //Show the result in console window
     printf("\n%s %s\n\n%s\n", FINAL_PROMPT, argv[1], HEADER);
 
@@ -96,7 +109,6 @@ int main(int argc, char *argv[])
            ENGINE, engine_on, GEAR, gear_pos, KEY, key_pos, BRAKE1, brake1, BRAKE2, brake2);
 
 }
-
 
 // ------ Function definitions   ----------
 
@@ -110,3 +122,26 @@ int getValue(int *car, int i) {
 
     return result;
 }
+
+int valueChecker(int brake2, int brake1, int key, int gear, int engine) {
+    if (engine != 1 && engine != 0)   //if engine value is not in th range
+    {
+        //return 0
+        return 0;
+    } else if (gear != 4 && gear != 2 && gear != 1 && gear != 0)   //if gear value is not in th range
+    {
+        return 0;
+    } else if (key != 0 && key != 1 && key != 2)   //if key value is not in th range
+    {
+        return 0;
+    } else if (brake2 != 1 && brake2 != 0)   //if brake2 value is not in th range
+    {
+        return 0;
+    } else if (brake1 != 1 && brake1 != 0)   //if break1 value is not in th range
+    {
+        return 0;
+    }
+    //If the values are in the range
+    return 1;
+}
+
