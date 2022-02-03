@@ -2,5 +2,4 @@
 /.vscode/
 /.idea/
 cmake-build-debug/
-CMakeLists.txt
 *.clang-format
