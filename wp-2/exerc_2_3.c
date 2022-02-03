@@ -69,7 +69,7 @@ void start(void)
         case 2:
         {
             int fileExists = check_file_exists(); // check before user inputs that file first exists
-            if (fileExists == 0) // if file exists
+            if (fileExists == 0)                  // if file exists
             {
                 PERSON person = input_record(); // get a person from user input
                 PERSON *personP = &person;      // pointer to the address of ppost
@@ -85,7 +85,7 @@ void start(void)
         case 3:
         {
             char str[] = "";                             // init str
-            printf("%s", "\nEnter name to search by: "); // display ask user for name to search message
+            printf("%s", "\nEnter first or last name to search by: "); // display ask user for name to search message
             scanf("%s", &str);                           // take string input
             search_by_firstname(str);                    // call search by name method with user inputted string
             break;
@@ -222,11 +222,11 @@ void append_file(PERSON *inrecord) // appends a new person to the file
 int check_file_exists(void)
 {
     FILE *file = fopen(fileName, "rb"); // open read connection to file
-    if (file == NULL) // if file doesn't exist
+    if (file == NULL)                   // if file doesn't exist
     {
         fclose(file); // close connection to file
-        return 1; // return 1 if file doesn't exist
+        return 1;     // return 1 if file doesn't exist
     }
     fclose(file); // close connection to file
-    return 0; // return 0 if file exists
+    return 0;     // return 0 if file exists
 }
