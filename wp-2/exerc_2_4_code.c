@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
 
 int lengthChecker(char *argument) {
     //Get the length of the argument
-    if (argument != NULL || // Stop NULL arguments
+    if (argument != NULL && // Stop NULL arguments
         strlen(argument) == ARGU_LENGTH)   //If the length is equal to 6 considering the last character to be /0
     {
         //if the length is correct:
@@ -118,7 +118,7 @@ int lengthChecker(char *argument) {
     return 0;
 }
 
-int formatChecker(char *string) {   //to check the format of argumnet
+int formatChecker(char *string) {   //to check the format of argument
     // TODO: Remove: convert the argument into int to use it in isdigit function later
     // TODO: Remove: int intFormat = atoi(string); // isDigit expects a string
 
