@@ -108,11 +108,11 @@ int main(int argc, char *argv[]) {
 
       // 1. manage robot starting position, end if function returns 0
       if (handlePositionInput(&robot) == 0)
-         return 2;
+         return 0;
 
       // 2. manage robots movement and turning, end if function returns 0
       if (handleDirectionInput(&robot) == 0)
-         return 2;
+         return 0;
 
       setRobotDirection(&robot);
 
