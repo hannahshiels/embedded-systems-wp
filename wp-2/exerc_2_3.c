@@ -37,6 +37,7 @@ void write_new_file(PERSON *inrecord); // Creates a file and writes the first re
 void printfile(void);                  // Prints out all persons in the file
 void search_by_firstname(char *name);  // Prints out the person if in list
 void append_file(PERSON *inrecord);    // appends a new person to the file
+int check_file_exists(void);           // check if file exists, return 0 or 1
 
 // ------ Main   --------------------------
 int main(void)
@@ -59,18 +60,26 @@ void start(void)
         case 1:
         {
             PERSON ppost, *person;
-            printf("%s", "\nCreate a dummy record: ");           // display message
-            ppost = input_record();                              // get person from user input
-            person = &ppost;                                     // pointer to the address of ppost
-            write_new_file(person);                              // call method to write to a new file
-            printf("%s", "\nCreated new file with dummy data!"); // display file created message
+            ppost = (PERSON){.firstname = "Dummy", .famname = "Record", .pers_number = "200010027654"}; // create dummy record
+            person = &ppost;                                                                            // pointer to the address of ppost
+            write_new_file(person);                                                                     // call method to write to a new file
+            printf("%s", "\nCreated new file with dummy data!");                                        // display file created message
             break;
         };
         case 2:
         {
-            PERSON person = input_record(); // get a person from user input
-            PERSON *personP = &person;      // pointer to the address of ppost
-            append_file(personP);           // call append file method
+            int fileExists = check_file_exists(); // check before user inputs that file first exists
+            if (fileExists == 0) // if file exists
+            {
+                PERSON person = input_record(); // get a person from user input
+                PERSON *personP = &person;      // pointer to the address of ppost
+                append_file(personP);           // call append file method
+            }
+            else
+            {
+                printf("File doesn't exist. Create a file first to append to the document"); // show err message
+            }
+
             break;
         };
         case 3:
@@ -103,20 +112,24 @@ void start(void)
 
 PERSON input_record(void) // Reads a person’s record.
 {
-    PERSON person;                             // init person
-    printf("%s", "\nEnter first name: ");      // ask for first name message
-    scanf("%s", person.firstname);             // take string input and assign first name to person
-    printf("%s", "\nEnter last name: ");       // ask for last name message
-    scanf("%s", person.famname);               //  take string input and assign last name to person
+    PERSON person; // init person
+
+    printf("%s", "\nEnter first name: "); // ask for first name message
+    scanf("%s", person.firstname);        // take string input and assign first name to person
+
+    printf("%s", "\nEnter last name: "); // ask for last name message
+    scanf("%s", person.famname);         //  take string input and assign last name to person
+
     printf("%s", "\nEnter personal number: "); // ask for personal number message
     scanf("%s", person.pers_number);           // take string input and assign personal number
-    return person;                             // return newly created person
+
+    return person; // return newly created person
 }
 
 void write_new_file(PERSON *inrecord) // Creates a file and writes the first record
 {
     FILE *file = fopen(fileName, "wb"); // open write connection to binary file
-    if (file != NULL)                   // if file doesn't exist
+    if (file != NULL)                   // if file exists
     {
         fwrite(inrecord, sizeof(PERSON) - 1, 1, file); // write record to file, ensuring garbage values aren't added
         fwrite("\n", sizeof(char), 1, file);           // add new line after record to file
@@ -131,7 +144,7 @@ void write_new_file(PERSON *inrecord) // Creates a file and writes the first rec
 void printfile(void) // Prints out all persons in the file
 {
     FILE *file = fopen(fileName, "rb"); // open read connection to binary file
-    if (file != NULL)                   // if file doesn't exist
+    if (file != NULL)                   // if file exists
     {
         PERSON person; // init empty person
         int nr = 0;    // use to count how many records
@@ -158,7 +171,7 @@ void search_by_firstname(char *name) // Prints out the person if in list, can ta
     FILE *file = fopen(fileName, "rb"); // open read connection to binary file
     int nr = 0;                         // counter for number of matching records found
     int recordNr = 0;                   // counter for number of records
-    if (file != NULL)                   // if file doesn't exist
+    if (file != NULL)                   // if file exists
     {
         PERSON person;                                  // init empty person
         while (fread(&person, sizeof(PERSON), 1, file)) // read file
@@ -194,14 +207,26 @@ void search_by_firstname(char *name) // Prints out the person if in list, can ta
 void append_file(PERSON *inrecord) // appends a new person to the file
 {
     FILE *file = fopen(fileName, "ab"); // open connection to binary file, to append records to
-    if (file != NULL)                   // if file doesn't exist
+    if (file != NULL)                   // if file exists
     {
         fwrite(inrecord, sizeof(PERSON) - 1, 1, file); // write record, ensuring no garbage characters
         fwrite("\n", 1, 1, file);                      // insert new line to file
     }
     else // otherwise
     {
-        printf("%s", "\n Something went wrong..."); // if file doesn't exist show error message
+        printf("%s", "\nSomething went wrong..."); // if file doesn't exist show error message
     }
     fclose(file); // close connection to file
+}
+
+int check_file_exists(void)
+{
+    FILE *file = fopen(fileName, "rb"); // open read connection to file
+    if (file == NULL) // if file doesn't exist
+    {
+        fclose(file); // close connection to file
+        return 1; // return 1 if file doesn't exist
+    }
+    fclose(file); // close connection to file
+    return 0; // return 0 if file exists
 }
