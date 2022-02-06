@@ -1,5 +1,16 @@
 *.exe
 /.vscode/
 /.idea/
-cmake-build-debug/
+/cmake-build-debug/
 *.clang-format
+/x64/
+/.vs/
+/out/
+*.sln
+*.vcxproj
+*.filters
+*.user
+CMakeSettings.json
+CMakeLists1.txt
+CMakeLists2.txt
+*.zip
