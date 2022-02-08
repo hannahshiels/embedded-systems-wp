@@ -51,6 +51,7 @@ void loop()
   
   if(pressedKey != 0) {					// if not 0
   	Serial.println(pressedKey); 		// print the pressed key
+  	delay(1000);
   }
 }
 
@@ -68,12 +69,8 @@ char getKey() {
       	delay(20);						// small delay 
         key = KEYS[i][j];				// set current key to char in KEYS
       }
-      
-      while(digitalRead(C_PINS[j]) == LOW) { // Stop input while key is pressed down
-      	key = KEYS[i][j];					 // Keep setting current key
-      }
     }
-    digitalWrite(R_PINS[i], HIGH); 			 // write row pin to HIGH again
+    digitalWrite(R_PINS[i], HIGH); 	    // write row pin to HIGH again
   }
   
   return key;							// return the key
