@@ -33,3 +33,8 @@ add_executable(WP2_4_code
         wp-2/exerc_2_4_code.c)
 add_executable(WP2_4_decode
         wp-2/exerc_2_4_decode.c)
+
+add_executable(WP3_1
+        wp-3/exerc_3_1.ino)
+add_executable(WP3_3
+        wp-3/exerc_3_3.ino)
