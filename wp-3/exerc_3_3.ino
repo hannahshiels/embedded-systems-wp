@@ -13,6 +13,7 @@
 // ------ Defines   ----------
 
 #define SENSOR_PIN 0   //The pin that is connected to the temperature sensor
+#define MAX_VOLT 5.0   //The maximum voltage for the sensor
 
 // ------ Variables etc   ----------
 
@@ -35,7 +36,7 @@ void loop()
     tmpSensor = analogRead(SENSOR_PIN);
 
     //convert the reading from the sensor into volts
-    voltage  = tmpSensor * 5.0;
+    voltage  = tmpSensor * MAX_VOLT;
     voltage /= 1024.0;
 
     //Convert volt into milli volt
