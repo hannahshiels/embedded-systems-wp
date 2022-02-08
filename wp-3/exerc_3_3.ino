@@ -34,18 +34,21 @@ void loop()
     //read the value from the sensor
     tmpSensor = analogRead(SENSOR_PIN);
 
-    //convert the reading from the sensor into
+    //convert the reading from the sensor into volts
     voltage  = tmpSensor * 5.0;
     voltage /= 1024.0;
 
+    //Convert volt into milli volt
+    voltage *= 1000;
+
     //Convert the voltage into celsius degree temperature
-    temperature = (voltage - 0.5) * 100.0;
+    temperature = (voltage - 500.0) / 10.0;
 
     //print the voltage to ease the comparison
-    Serial.print("Voltage is: "); Serial.println(voltage);
+    Serial.print("Voltage is: "); Serial.print(voltage); Serial.println(" milli volts");
 
     //print out the temperature
-    Serial.print("Temperature is: ");Serial.println(temperature);
+    Serial.print("Temperature is: ");Serial.print(temperature);Serial.println(" centigrade");
 
     // Delay to improve simulation performance
     delay(500);
