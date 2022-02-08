@@ -14,6 +14,7 @@
 
 #define SENSOR_PIN 0   //The pin that is connected to the temperature sensor
 #define MAX_VOLT 5.0   //The maximum voltage for the sensor
+#define BIT_RESOLUTION 10   //The bit resolution for the voltage
 
 // ------ Variables etc   ----------
 
@@ -37,7 +38,7 @@ void loop()
 
     //convert the reading from the sensor into volts
     voltage  = tmpSensor * MAX_VOLT;
-    voltage /= 1024.0;
+    voltage /= (pow (2, BIT_RESOLUTION));
 
     //Convert volt into milli volt
     voltage *= 1000;
