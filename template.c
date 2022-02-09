@@ -1,4 +1,4 @@
-// (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
+// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package x
 // Exercise x
 // Submission code: xxxxxx
