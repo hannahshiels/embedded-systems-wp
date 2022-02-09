@@ -23,8 +23,11 @@ void setup()
 // used to turn on led light, outputing the the temperature deviations in relation to the light intensity
 void turn_on_led(int PIN)
 {
+  if(digitalRead(PIN) != HIGH) // if the led isn't already on
+  {
     digitalWrite(PIN, HIGH); // turn on led
     delay(500); // wait a bit
+  }
 }
 
 // used to turn off leds depending on temperature deviations 
@@ -50,11 +53,13 @@ void loop()
     float calc = ((float)tempReading * 5.0) / 1024.0; 
     float temp = (calc - 0.5) * 100;
     int lightReading = analogRead(LIGHT_PIN); // read light sensor value
-    Serial.println(lightReading);
-    float percentage = ((float)lightReading / 1023.0) * 100.0; // light sensor has analog values from 0 - 1023, therefore to calculate light intensity percentage we divide by 1023 and multiply by 100 to get a usable percentage
-    Serial.println(temp);                                      // print temperature
-    Serial.println(percentage);                                // print light intensity
-    if (percentage == 0.0 || percentage < 1.0) // if the light intensity percentage is zero or less than 1
+    int percentage = map(lightReading, 6, 679, 0, 100); // map tinkercad readings to scale from 0 to 100
+    Serial.print("Light intensity percentage: "); // print message
+  	Serial.println(percentage); // print curent percentage
+    Serial.print("Temperature: "); // print message
+  	Serial.println(temp); // print current temp
+  
+    if (percentage == 0.0) // if the light intensity percentage is zero
     { 
         Serial.println("Light intensity percentage is 0%"); // print message about current light intensity percentage
         if (temp < -12.0) // if the temperature is less than minus 12 degrees
@@ -70,7 +75,7 @@ void loop()
             turn_on_led(LED_PIN_RED); // turn on red led
         }
     }
-    else if (percentage >= 1.0 && percentage < 21.0) // if the light intensity is between 1 and 20% percent
+    else if (percentage >= 1 && percentage < 21) // if the light intensity is between 1 and 20% percent
     {
         Serial.println("Light intensity percentage is between 1% and 20%"); // print message about current light intensity percentage
         if (temp < -12.0) // if the temperature is lower minus 12 degrees
@@ -92,7 +97,7 @@ void loop()
             turn_on_led(LED_PIN_RED); // turn on red led
         }
     }
-    else if (percentage >= 21.0 && percentage < 61.0) // if the light intensity is between 21% and 60%
+    else if (percentage >= 21 && percentage < 61) // if the light intensity is between 21% and 60%
     {
         Serial.println("Light intensity percentage is between 21% and 60%"); // print message about current light intensity percentage
         if (temp < 0.0) // if the temperature is lower than 0 degrees
