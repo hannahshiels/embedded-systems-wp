@@ -51,7 +51,7 @@ void loop()
   
   if(pressedKey != 0) {					// if not 0
   	Serial.println(pressedKey); 		// print the pressed key
-  	delay(1000);
+  	delay(1000);                        // 1 second delay;
   }
 }
 
