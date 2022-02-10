@@ -20,6 +20,12 @@ void setup()
     pinMode(LED_PIN_GREEN, OUTPUT);  // set green led up for output
 }
 
+void loop()
+{
+    check_readings();   // check the readings and turn on led based on them
+    delay(INTERVAL_MS); // Wait for 1000 millisecond(s)
+}
+
 // used to turn on led light, outputing the the temperature deviations in relation to the light intensity
 void turn_on_led(int PIN)
 {
@@ -142,8 +148,3 @@ void check_readings() // check the readings of the temperature and light sensors
     check_deviations(percentage, temp);                 // turn on led light based on dependencies between temperature and light intensity
 }
 
-void loop()
-{
-    check_readings();   // check the readings and turn on led based on them
-    delay(INTERVAL_MS); // Wait for 1000 millisecond(s)
-}
