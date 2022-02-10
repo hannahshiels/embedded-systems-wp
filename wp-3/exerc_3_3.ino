@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 3
 // Exercise 3
-// Submission code: xxxxxx
+// Submission code: 736984
 
 /**
  * In this exercise you should add the display of the temperature to your temperature meter and use analog conversion
@@ -33,25 +33,45 @@ void setup()
 //This happens over and over while the cod eis executing
 void loop()
 {
+    //calculate the voltage
+    voltageHandler();
+
+    //Calculate the temperature based on the calculated voltage
+    tempConverter();
+
+    //print out the calculated data above in the serial console
+    serialPrinter();
+
+    // Delay to improve simulation performance
+    delay(500);
+}
+
+void voltageHandler()
+{
     //read the value from the sensor
     tmpSensor = analogRead(SENSOR_PIN);
 
     //convert the reading from the sensor into volts
     voltage  = tmpSensor * MAX_VOLT;
+
+    //10 bit resolution
     voltage /= (pow (2, BIT_RESOLUTION));
 
     //Convert volt into milli volt
     voltage *= 1000;
+}
 
+void tempConverter()
+{
     //Convert the voltage into celsius degree temperature
     temperature = (voltage - 500.0) / 10.0;
+}
 
+void serialPrinter()
+{
     //print the voltage to ease the comparison
     Serial.print("Voltage is: "); Serial.print(voltage); Serial.println(" milli volts");
 
     //print out the temperature
     Serial.print("Temperature is: ");Serial.print(temperature);Serial.println(" centigrade");
-
-    // Delay to improve simulation performance
-    delay(500);
 }
