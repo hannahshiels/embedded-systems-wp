@@ -10,16 +10,16 @@
  * TINKERCAD Link: https://www.tinkercad.com/things/1s3GKzv0wlg
  **/
 
+// DEFINE
+#define DATA_RATE 9600 					// Define data rate for Serial
+#define KEY_PRINT_DELAY 1000 			// Delay after printing key
+
 // CONSTANTS
-// Row and Column amount
-const char ROWS = 4;
-const char COLUMNS = 4;
-// KeyPad Row Pins
-const char R_PINS[ROWS] = {11,10,9,8}; 	// D8-D11
-// KeyPad Column Pins
-const char C_PINS[COLUMNS] = {7,6,5,4}; // D4-D7
-// KeyPad keys
-const char KEYS[ROWS][COLUMNS] = {
+const char ROWS = 4; 					// Row amount
+const char COLUMNS = 4; 				// Column amount
+const char R_PINS[ROWS] = {11,10,9,8}; 	// Pins for keypad rows - B8-B11
+const char C_PINS[COLUMNS] = {7,6,5,4}; // Pins for keypad columns - D4-D7
+const char KEYS[ROWS][COLUMNS] = { 		// Possible KeyPad keys
               {'1', '2', '3', 'A'},
               {'4', '5', '6', 'B'},
               {'7', '8', '9', 'C'},
@@ -30,16 +30,8 @@ const char KEYS[ROWS][COLUMNS] = {
  **/
 void setup()
 {
-  Serial.begin(9600); 					// begin serial
-  
-  for(char i = 0; i < COLUMNS; i++){	// for length of columns
-  	pinMode(C_PINS[i], INPUT); 			// set column pin as input
-  	digitalWrite(C_PINS[i], HIGH);		// Set column pin to high
-  }
-  
-  for(char i = 0; i < ROWS; i++){  		// for length of rows
-    pinMode(R_PINS[i], OUTPUT);    		// set row pin as output
-  }
+  Serial.begin(DATA_RATE); 				// begin serial
+  setPins();                            // set pin output, input, high
 }
 
 /**
@@ -48,16 +40,14 @@ void setup()
 void loop()
 {
   char pressedKey = getKey(); 			// get pressed key
-  
-  if(pressedKey != 0) {					// if not 0
-  	Serial.println(pressedKey); 		// print the pressed key
-  	delay(1000);                        // 1 second delay;
-  }
+  printKey(pressedKey);					// print the pressed key
 }
 
 /**
- *FUNCTION: getKey() - function that returns current pressed key
+ *FUNCTIONS
  **/
+
+// getKey() returns current pressed key
 char getKey() {
   char key = 0;							// store key
   
@@ -74,4 +64,24 @@ char getKey() {
   }
   
   return key;							// return the key
+}
+
+// printKey() prints a recieved char and sets a delay for x time
+void printKey(char key){
+  if(key != 0) {						// if not 0
+  	Serial.println(key); 				// print the pressed key
+    delay(KEY_PRINT_DELAY);				// delay
+  }
+}
+
+// sets pins as either input, output, and column pins to high
+void setPins(){
+  for(char i = 0; i < COLUMNS; i++){	// for length of columns
+  	pinMode(C_PINS[i], INPUT); 			// set column pin as input
+  	digitalWrite(C_PINS[i], HIGH);		// Set column pin to high
+  }
+  
+  for(char i = 0; i < ROWS; i++){  		// for length of rows
+    pinMode(R_PINS[i], OUTPUT);    		// set row pin as output
+  }
 }
