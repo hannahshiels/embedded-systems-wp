@@ -26,7 +26,7 @@ void turn_on_led(int PIN)
   if(digitalRead(PIN) != HIGH) // if the led isn't already on
   {
     digitalWrite(PIN, HIGH); // turn on led
-    delay(500); // wait a bit
+    delay(500); // wait half a second
   }
 }
 
@@ -47,18 +47,8 @@ void turn_off_leds(int PIN)
     }
 }
 
-void loop()
+void check_deviations(int percentage, float temp) // used to control logic of how leds are turned on based on light intensity and temperature relation
 {
-    int tempReading = analogRead(TEMP_PIN); // read analog value of temperature
-    float calc = ((float)tempReading * 5.0) / 1024.0; 
-    float temp = (calc - 0.5) * 100;
-    int lightReading = analogRead(LIGHT_PIN); // read light sensor value
-    int percentage = map(lightReading, 6, 679, 0, 100); // map tinkercad readings to scale from 0 to 100
-    Serial.print("Light intensity percentage: "); // print message
-  	Serial.println(percentage); // print curent percentage
-    Serial.print("Temperature: "); // print message
-  	Serial.println(temp); // print current temp
-  
     if (percentage == 0.0) // if the light intensity percentage is zero
     { 
         Serial.println("Light intensity percentage is 0%"); // print message about current light intensity percentage
@@ -135,5 +125,25 @@ void loop()
             turn_on_led(LED_PIN_YELLOW); // turn on yellow led
         }
     }
+}
+
+void check_readings() // check the readings of the temperature and light sensors and call check deviations, turning on a led depending on the relation of the light intensity and temperature
+{
+    int tempReading = analogRead(TEMP_PIN); // read analog value of temperature
+    float calc = ((float)tempReading * 5.0) / 1024.0; // calculate voltage
+    float temp = (calc - 0.5) * 100; // covert to celsuis 
+    int lightReading = analogRead(LIGHT_PIN); // read light sensor value
+   	Serial.println(lightReading);
+  	int percentage = map(lightReading, 6, 679, 0, 100); // map tinkercad readings to scale from 0 to 100
+    Serial.print("Light intensity percentage: "); // print message
+  	Serial.println(percentage); // print curent percentage
+    Serial.print("Temperature: "); // print message
+  	Serial.println(temp); // print current temp
+  	check_deviations(percentage, temp); // turn on led light based on dependencies between temperature and light intensity
+}
+
+void loop()
+{
+	check_readings(); // check the readings and turn on led based on them
     delay(INTERVAL_MS); // Wait for 1000 millisecond(s)
 }
