@@ -37,7 +37,7 @@ Keypad keypad = Keypad( makeKeymap(KEYS), R_PINS, C_PINS, ROWS, COLUMNS); // Key
  **/
 void setup()
 {
-  Serial.begin(DATA_RATE); 					// begin serial
+  Serial.begin(DATA_RATE); 				// begin serial
 }
 
 /**
