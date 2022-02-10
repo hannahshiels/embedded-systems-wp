@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 3
 // Exercise 1
-// Submission code: xxxxxx
+// Submission code: 736984
 
 /**
  * Create a simple system in TinkerCad, which will use one LED to blink periodically, e.g. once a second. Add one more
@@ -25,6 +25,12 @@ void setup()
 
 //This happens over and over
 void loop()
+{
+    //Does the blinking!
+    blink();
+}
+
+void blink()
 {
     //Turn on the blinking LED
     digitalWrite(BLINK_LED, HIGH);
