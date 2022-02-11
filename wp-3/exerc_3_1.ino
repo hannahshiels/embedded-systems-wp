@@ -18,6 +18,9 @@
 //Initializing
 void setup()
 {
+    //set pins as output
+    pinMode(BLINK_LED, OUTPUT);
+    pinMode(BUTTON_LED, OUTPUT);
     //triggers the circuit including the button LED
     digitalWrite(BUTTON_LED, HIGH);
 
