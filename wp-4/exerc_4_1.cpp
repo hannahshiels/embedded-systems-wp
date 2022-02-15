@@ -82,8 +82,8 @@ void setup_timer_1() {
    TCCR1B = 0;// same for TCCR1B
    TCNT1 = 0; //initialize counter value to 0
 
-
-   timer1 = (CLOCK_SPEED / (PRESCALER * INTERRUPT_FREQ)) - 1;// calculate at which point to stop the counter and set to int:
+   // calculate at which point to stop the counter and set to int:
+   timer1 = (CLOCK_SPEED / (PRESCALER * INTERRUPT_FREQ)) - 1;
 
    if (timer1 >= TIMER1_MAX) {                                                         // if value went above max value
       timer1 = TIMER1_MAX;                                                             // set timer to max allowed value
@@ -143,17 +143,17 @@ void temp_converter() {
 // This function turns on leds depending on current temperature
 // temperature sensor has range -40 to 125
 // this allows a value range of 33 for 5 leds
-// TODO: Make PORTB assignment safer
+// TODO: Make PORTB assignment safer for non led PORTB pins
 void activate_leds() {
-   if (temperature <= -7) {                           // if temperature is in range
-      PORTB = LED_PIN_BLUE;                           // set PORTB to only light up blue led
-   } else if (temperature > -7 && temperature <= 26) {// if temperature is in range
-      PORTB = LED_PIN_GREEN;                          // set PORTB to only light up green led
-   } else if (temperature > 26 && temperature <= 59) {// if temperature is in range
-      PORTB = LED_PIN_YELLOW;                         // set PORTB to only light up yellow led
-   } else if (temperature > 59 && temperature <= 92) {// if temperature is in range
-      PORTB = LED_PIN_ORANGE;                         // set PORTB to only light up orange led
-   } else if (temperature > 92) {                     // if temperature is in range
-      PORTB = LED_PIN_RED;                            // set PORTB to only light up red led
+   if (temperature <= -7) {                                                                // if temperature is in range
+      PORTB = LED_PIN_BLUE;                                                                // set PORTB to only light up blue led
+   } else if (temperature > -7 && temperature <= 26) {                                     // if temperature is in range
+      PORTB = LED_PIN_BLUE | LED_PIN_GREEN;                                                // set PORTB to only light up green led
+   } else if (temperature > 26 && temperature <= 59) {                                     // if temperature is in range
+      PORTB = LED_PIN_BLUE | LED_PIN_GREEN | LED_PIN_YELLOW;                               // set PORTB to only light up yellow led
+   } else if (temperature > 59 && temperature <= 92) {                                     // if temperature is in range
+      PORTB = LED_PIN_BLUE | LED_PIN_GREEN | LED_PIN_YELLOW | LED_PIN_ORANGE;              // set PORTB to only light up orange led
+   } else if (temperature > 92) {                                                          // if temperature is in range
+      PORTB = LED_PIN_BLUE | LED_PIN_GREEN | LED_PIN_YELLOW | LED_PIN_ORANGE | LED_PIN_RED;// set PORTB to only light up red led
    }
 }
