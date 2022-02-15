@@ -41,11 +41,11 @@
 #define TIMER1_LOW 257      // Lowest counter value for timer1
 
 // CONSTANTS, VARIABLES
-float tmpSensor = 0.0;  //	The value received from the temperature sensor will be saved here
-float temp_old = 0.0;   //	A copy of above used in comparisons
-float voltage = 0.0;    //	The value of voltage will be stored here
-float temperature = 0.0;//	The temperature value will be stored in this variable
-int timer1 = 0;         //	Used for saving calculated timer1 value
+volatile float tmpSensor = 0.0;//	The value received from the temperature sensor will be saved here
+float temp_old = 0.0;          //	A copy of above used in comparisons
+float voltage = 0.0;           //	The value of voltage will be stored here
+float temperature = 0.0;       //	The temperature value will be stored in this variable
+int timer1 = 0;                //	Used for saving calculated timer1 value
 
 /**
  * Setup
