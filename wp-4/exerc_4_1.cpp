@@ -34,6 +34,7 @@
 #define BIT_RESOLUTION 10//The bit resolution for the voltage
 
 // Timer & Interrupt related:
+// used in calculation: compare match register = [ clock speed/ (prescaler * interrupt frequency) ] - 1
 #define PRESCALER 1024      // used for dictating speed of timer according to (timer speed (Hz)) = (Arduino clock speed (16MHz)) / prescaler
 #define INTERRUPT_FREQ 1    // define interrupt frequency
 #define CLOCK_SPEED 16000000// Clock speed of the Arduino Uno
@@ -41,11 +42,12 @@
 #define TIMER1_LOW 257      // Lowest counter value for timer1
 
 // CONSTANTS, VARIABLES
+int timer1 = 0;//	Used for saving calculated compare match register value
+
 volatile float tmpSensor = 0.0;//	The value received from the temperature sensor will be saved here
 float temp_old = 0.0;          //	A copy of above used in comparisons
 float voltage = 0.0;           //	The value of voltage will be stored here
 float temperature = 0.0;       //	The temperature value will be stored in this variable
-int timer1 = 0;                //	Used for saving calculated timer1 value
 
 /**
  * Setup
@@ -80,11 +82,10 @@ void setup_timer_1() {
    TCCR1B = 0;// same for TCCR1B
    TCNT1 = 0; //initialize counter value to 0
 
-   // calculate at which point to stop the counter and set to int:
-   timer1 = (CLOCK_SPEED / (PRESCALER * INTERRUPT_FREQ)) - 1;
 
-   // if value went above max value
-   if (timer1 >= TIMER1_MAX) {
+   timer1 = (CLOCK_SPEED / (PRESCALER * INTERRUPT_FREQ)) - 1;// calculate at which point to stop the counter and set to int:
+
+   if (timer1 >= TIMER1_MAX) {                                                         // if value went above max value
       timer1 = TIMER1_MAX;                                                             // set timer to max allowed value
       Serial.println((String) "timer1 was set too high and was changed to: " + timer1);// notify user
    } else if (timer1 <= TIMER1_LOW) {                                                  // if value went below lowest value
@@ -92,19 +93,15 @@ void setup_timer_1() {
       Serial.println((String) "timer1 was set too low and was changed to: " + timer1); // notify user
    }
 
-   // set compare match register for 1hz increments
-   OCR1A = timer1;
-   // turn on CTC mode
-   TCCR1B |= (1 << WGM12);
-   // set CS10 and CS12 bits for 1024 prescaler
-   TCCR1B |= (1 << CS12) | (1 << CS10);
-   // enable timer compare interrupt
-   TIMSK1 |= (1 << OCIE1A);
+   OCR1A = timer1;                     // set compare match register for 1hz increments
+   TCCR1B |= (1 << WGM12);             // turn on CTC mode
+   TCCR1B |= (1 << CS12) | (1 << CS10);// set CS10 and CS12 bits for 1024 prescaler
+   TIMSK1 |= (1 << OCIE1A);            // enable timer compare interrupt
 
    sei();//allow interrupts
 }
 
-// This function sets the led pins; DDRB=B00011111
+// This function sets the led pins to output; DDRB=B00011111
 void setupLedPins() {
    DDRB = DDRB | LED_PIN_RED;   // Set red led up for output
    DDRB = DDRB | LED_PIN_ORANGE;// Set red led up for output
@@ -116,7 +113,9 @@ void setupLedPins() {
 // Interrupt 1
 // Based on setupTimer1, this ISR will trigger every x second(s)
 ISR(TIMER1_COMPA_vect) {
+   cli();     //stop interrupts
    get_temp();// get the temperature
+   sei();     //allow interrupts
 }
 
 /**
