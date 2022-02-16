@@ -14,6 +14,7 @@
 // pins for servos
 #define SERVO_S_PIN A0
 #define SERVO_M_PIN A1
+#define MAX_DEGREES 180 // max degree for servo motor
 
 // declare variables
 Servo servo_s; // servo for seconds
@@ -37,18 +38,17 @@ void loop()
     reset_degrees();                   // if degrees are 180 then reset the position of servos
     increment_degrees_seconds_servo(); // increment number of degrees to seconds servo
     print_output();                    // print current seconds and minutes
-    check_seconds();                   // increment number of seconds and update minutes if need be
+    check_seconds();                   // increment number of seconds
     delay(1000);                       // wait 1 second
 }
 
 void check_seconds() // check the seconds
 {
+    seconds++;         // increment seconds
     if (seconds == 60) // if the seconds are 60
     {
-        seconds = 0;         // reset number of seconds
-        increment_minutes(); // update number of minutes and degrees of minute servo
+        seconds = 0; // reset number of seconds
     }
-    seconds++; // increment seconds
 }
 
 void increment_minutes()
@@ -59,11 +59,12 @@ void increment_minutes()
 
 void reset_degrees()
 {
-    if (sDegrees == 180) // if the servo is fully rotated
+    if (sDegrees == MAX_DEGREES) // if the servo is fully rotated
     {
-        sDegrees = 0; // reset the position
+        sDegrees = 0;        // reset the position
+        increment_minutes(); // update number of minutes and degrees of minute servo
     }
-    if (mDegrees == 180) // if the servo is fully rotated
+    if (mDegrees == MAX_DEGREES) // if the servo is fully rotated
     {
         mDegrees = 0; // reset the position
     }
