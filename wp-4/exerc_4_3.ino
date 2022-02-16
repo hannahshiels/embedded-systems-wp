@@ -107,7 +107,7 @@ void setAlert()
         digitalWrite(STANDARD_LED_PIN, HIGH);  //Alert with red LED
     } else {                  //If the light intensity is not the highest
         noTone(SPEAKER);                       //turn off the speaker
-        digitalWrite(STANDARD_LED_PIN, HIGH);  //Turn off the red LED
+        digitalWrite(STANDARD_LED_PIN, LOW);  //Turn off the red LED
     }
 }
 
