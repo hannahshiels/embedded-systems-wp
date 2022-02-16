@@ -19,7 +19,6 @@
 // DEFINE
 // General:
 #define DATA_RATE 9600// Define data rate for Serial
-#define SECOND 1000   // A second in milliseconds
 
 // Leds:
 #define LED_PIN_RED 0B00010000   // Red led pin
@@ -62,6 +61,7 @@ void setup() {
  **/
 void loop() {
    if (tmpSensor != temp_old) {//0. If the new tmpSensor value is different
+      temp_old = tmpSensor;    // save current value
       voltage_handler();       //1. Calculate the voltage
       temp_converter();        //2. Calculate the temperature based on the calculated voltage
       activate_leds();         //3. Turn on leds depending on temperature
