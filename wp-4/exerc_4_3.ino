@@ -21,6 +21,7 @@
 
 // ------ Defines   ----------
 #define NEO_PIN 2                   //The digital pin that the neo pixel is connected through
+#define STANDARD_LED_PIN 4          //Teh digital pin that the standard LED is connected with
 #define LIGT_SENSOR_PIN A0          //The analogue pin which the light sensor is connected through
 #define SPEAKER 3                   //The digital pin which the speaker is connected with
 #define NUMBER_OF_PIXELS 24         //The number of pixels in a neon pixel
@@ -45,6 +46,7 @@ void setup()
     pixels.begin();                    //Initialize the library
     pinMode(LIGT_SENSOR_PIN, INPUT);   //Define the light sensor as input
     pinMode(SPEAKER, OUTPUT);          //Define the speaker as output
+    pinMode(STANDARD_LED_PIN, OUTPUT);
     Serial.begin(9600);                //For debugging purpose
 }
 
@@ -52,10 +54,10 @@ void setup()
 void loop()
 {
 
-    lightVal = analogRead(A0);          //Read the value from the light sensor
+    lightVal = analogRead(LIGT_SENSOR_PIN);          //Read the value from the light sensor
     Serial.println(lightVal);           //Print out the value for debugging
     ledHandler();                       //Turn on the LEDs in neo pixel according to the light intensity
-    setAlert();                         //Alert with the speaker
+    setAlert();                         //Alert with the speaker and the standard LED
     delay(DELAY);                       //To avoid laptop explosion
 }
 
@@ -82,6 +84,7 @@ void setColor(int i,bool isOn)
         redColor = 255;    //Set the color of LED to red
         greenColor = 0;    //turn off the colors other than red
         blueColor = 0;     //Turn off the colors other than red
+
     } else if (i != 23 && isOn)  //if the LED index is not the last, but it should turn on
     {
         redColor = 153;    //Set LED to a beautiful color
@@ -99,10 +102,12 @@ void setColor(int i,bool isOn)
 
 void setAlert()
 {
-    if (lightVal == HIGHEST_LIGHT_VALUE){  //If the light intensity is the highest
-        tone(SPEAKER, 500, 200);           //Alert in some frequency
-    } else {                 //If the light intensity is not the highest
-        noTone(SPEAKER);     //turn off the speaker
+    if (lightVal == HIGHEST_LIGHT_VALUE){      //If the light intensity is the highest
+        tone(SPEAKER, 500, 200);               //Alert in some frequency
+        digitalWrite(STANDARD_LED_PIN, HIGH);  //Alert with red LED
+    } else {                  //If the light intensity is not the highest
+        noTone(SPEAKER);                       //turn off the speaker
+        digitalWrite(STANDARD_LED_PIN, HIGH);  //Turn off the red LED
     }
 }
 
