@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 4
 // Exercise 2
-// Submission code: xxxxxx
+// Submission code: 777339
 
 /**
  * This program functions as an analog timer, where the servos measure
@@ -16,7 +16,6 @@
 #define SERVO_M_PIN A1
 
 #define MAX_DEGREES 180 // max degree for servo motor
-#define DEGREE_INCR 3   // degrees for servos to turn each increment
 
 // declare variables
 Servo servo_s; // servo for seconds
@@ -37,7 +36,6 @@ void setup()
 
 void loop()
 {
-    update_degrees();                  // if degrees are 180 then reset the position of servos, update minute servo if seconds servo is fully rotated
     increment_degrees_seconds_servo(); // increment number of degrees for seconds servo
     print_output();                    // print current seconds and minutes
     check_seconds();                   // check second count and increment number of seconds
@@ -46,41 +44,31 @@ void loop()
 
 void check_seconds() // check the seconds and increment
 {
-    seconds++;         // increment seconds
     if (seconds == 60) // if seconds is 60
     {
-        seconds = 0; // reset number of seconds
+        seconds = 0;         // reset number of seconds
+      	increment_minutes(); // increment minutes and set new position of minute servo
     }
+     seconds++; // increment seconds
 }
 
-void increment_minutes()
+void increment_minutes() // increment minute related servo
 {
     minutes++;                         // increment number of minutes
     increment_degrees_minutes_servo(); // increment minute servo
 }
 
-void update_degrees() // reset degrees if servos are fully rotated and update degrees of minute servo
-{
-    if (sDegrees == MAX_DEGREES) // if the seconds servo is fully rotated
-    {
-        sDegrees = 0;        // reset the position
-        increment_minutes(); // update number of minutes and degrees of minute servo
-    }
-    if (mDegrees == MAX_DEGREES) // if the minutes servo is fully rotated
-    {
-        mDegrees = 0; // reset the position
-    }
-}
 
 void increment_degrees_seconds_servo() // increment the number of degrees for the seconds servo
 {
+  	sDegrees = map(seconds, 0, 60, 0, MAX_DEGREES); // map seconds to degrees 
     servo_s.write(sDegrees); // set the position of servo
-    sDegrees += DEGREE_INCR; // increase degrees by 3 to ensure full rotation of servo by one minute
 }
 
 void increment_degrees_minutes_servo() // increment the number of degrees for the minutes servo
 {
-    servo_m.write(mDegrees += DEGREE_INCR); // set the position of servo, incrementing by 3 to be fully rotated after 1 hour
+  	mDegrees = map(minutes, 0, 60, 0, MAX_DEGREES); // map minutes to degrees
+    servo_m.write(mDegrees); // set the position of the servo 
 }
 
 void print_output() // print minutes and seconds
