@@ -46,7 +46,7 @@ void setup()
     pixels.begin();                    //Initialize the library
     pinMode(LIGT_SENSOR_PIN, INPUT);   //Define the light sensor as input
     pinMode(SPEAKER, OUTPUT);          //Define the speaker as output
-    pinMode(STANDARD_LED_PIN, OUTPUT);
+    pinMode(STANDARD_LED_PIN, OUTPUT); //Define the pin for the standard LED
     Serial.begin(9600);                //For debugging purpose
 }
 
@@ -87,9 +87,9 @@ void setColor(int i,bool isOn)
 
     } else if (i != 23 && isOn)  //if the LED index is not the last, but it should turn on
     {
-        redColor = 153;    //Set LED to a beautiful color
-        greenColor = 51;   //Set LED to a beautiful color
-        blueColor = 255;   //Set LED to a beautiful color
+        redColor = 153;    //Set LED to a purple color
+        greenColor = 51;   //Set LED to a purple color
+        blueColor = 255;   //Set LED to a purple color
     } else    //if the LED should turn off
     {
         redColor = 0;    //turn off
