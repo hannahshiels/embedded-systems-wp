@@ -47,9 +47,9 @@ void check_seconds() // check the seconds and increment
     if (seconds == 60) // if seconds is 60
     {
         seconds = 0;         // reset number of seconds
-      	increment_minutes(); // increment minutes and set new position of minute servo
+        increment_minutes(); // increment minutes and set new position of minute servo
     }
-     seconds++; // increment seconds
+    seconds++; // increment seconds
 }
 
 void increment_minutes() // increment minute related servo
@@ -58,17 +58,16 @@ void increment_minutes() // increment minute related servo
     increment_degrees_minutes_servo(); // increment minute servo
 }
 
-
 void increment_degrees_seconds_servo() // increment the number of degrees for the seconds servo
 {
-  	sDegrees = map(seconds, 0, 60, 0, MAX_DEGREES); // map seconds to degrees 
-    servo_s.write(sDegrees); // set the position of servo
+    sDegrees = map(seconds, 0, 60, 0, MAX_DEGREES); // map seconds to degrees
+    servo_s.write(sDegrees);                        // set the position of servo
 }
 
 void increment_degrees_minutes_servo() // increment the number of degrees for the minutes servo
 {
-  	mDegrees = map(minutes, 0, 60, 0, MAX_DEGREES); // map minutes to degrees
-    servo_m.write(mDegrees); // set the position of the servo 
+    mDegrees = map(minutes, 0, 60, 0, MAX_DEGREES); // map minutes to degrees
+    servo_m.write(mDegrees);                        // set the position of the servo
 }
 
 void print_output() // print minutes and seconds
