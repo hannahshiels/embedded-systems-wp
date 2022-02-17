@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 4
 // Exercise 1
-// Submission code: xxxxxx
+// Submission code: 777339
 
 /**
  * This program will measure temperature by using an interrupt.
@@ -11,9 +11,7 @@
  * This program uses pre-defined variables:
  * DDRB: used to set INPUT/OUTPUT on port B. 8-bit | 0000 0000
  * PORTB: used to set HIGH/LOW ont port B. 8-bit | 0000 0000
- * setupTimer1 and ISR: uses 
  * 
- * TINKERCAD Link: 
  **/
 
 // DEFINE
