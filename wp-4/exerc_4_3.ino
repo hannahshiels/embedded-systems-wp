@@ -60,7 +60,7 @@ void loop()
     Serial.println(lightVal);           //Print out the value for debugging
     ledHandler();                       //Turn on the LEDs in neo pixel according to the light intensity
     setAlert();                         //Alert with the speaker and the standard LED
-    delay(DELAY);                       //To avoid laptop explosion
+    delay(DELAY);                       //To improve simulation performance
 }
 
 void ledHandler()
