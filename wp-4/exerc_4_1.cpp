@@ -17,19 +17,16 @@
 // DEFINE
 // General:
 #define DATA_RATE 9600// Define data rate for Serial
-
 // Leds:
 #define LED_PIN_RED 0B00010000   // Red led pin
 #define LED_PIN_ORANGE 0B00001000// Orange led pin
 #define LED_PIN_YELLOW 0B00000100// Yellow led pin
 #define LED_PIN_GREEN 0B00000010 // Green led pin
 #define LED_PIN_BLUE 0B00000001  // Blue led pin
-
 // Temperature sensor:
 #define TEMP_PIN A0      // Define pin for temperature sensor
 #define MAX_VOLT 5.0     //The maximum voltage for the sensor
 #define BIT_RESOLUTION 10//The bit resolution for the voltage
-
 // Timer & Interrupt related:
 // used in calculation: compare match register = [ clock speed/ (prescaler * interrupt frequency) ] - 1
 #define PRESCALER 1024      // used for dictating speed of timer according to (timer speed (Hz)) = (Arduino clock speed (16MHz)) / prescaler
@@ -39,8 +36,7 @@
 #define TIMER1_LOW 257      // Lowest counter value for timer1
 
 // CONSTANTS, VARIABLES
-int timer1 = 0;//	Used for saving calculated compare match register value
-
+int timer1 = 0;                //	Used for saving calculated 'compare match register' value
 volatile float tmpSensor = 0.0;//	The value received from the temperature sensor will be saved here
 float temp_old = 0.0;          //	A copy of above used in comparisons
 float voltage = 0.0;           //	The value of voltage will be stored here
@@ -51,6 +47,7 @@ float temperature = 0.0;       //	The temperature value will be stored in this v
  **/
 void setup() {
    setup_timer_1();        // Setup timer1
+   setupLedPins();         // Setup Leds
    Serial.begin(DATA_RATE);// Begin serial
 }
 
