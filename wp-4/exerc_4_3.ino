@@ -13,6 +13,8 @@
  the temperature sensor. Since the NeoPixel ring is a ring, you should indicate that you reached the limit of LEDs by
  adding one more, standard red LED. The red LED should be ON after all NeoPixel ring’s LEDs are ON. Optional: you can add
  speaker (Pizo) to make a sound in addition to turning ON the red LED.
+
+TinkerCad Link: https://www.tinkercad.com/things/b3uAztfvfwF-wp4exerc3/editel
  */
 
 //------ Imports   ----------
@@ -79,13 +81,7 @@ void ledHandler()
 
 void setColor(int i,bool isOn)
 {
-    if(i == 23 && isOn)    //if it is the last LED in the neo pixel and it shoould turn on
-    {
-        redColor = 255;    //Set the color of LED to red
-        greenColor = 0;    //turn off the colors other than red
-        blueColor = 0;     //Turn off the colors other than red
-
-    } else if (i != 23 && isOn)  //if the LED index is not the last, but it should turn on
+    if(isOn)    //if the LED should turn on
     {
         redColor = 153;    //Set LED to a purple color
         greenColor = 51;   //Set LED to a purple color
