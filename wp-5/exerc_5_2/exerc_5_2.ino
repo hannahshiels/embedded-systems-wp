@@ -75,7 +75,7 @@ void tempRead()
 {
     read = analogRead(TEMPERATURE_PIN);   // Read the value from the temperature sensor
     voltage = read * VOLTAGE;             // convert the sensor read into voltage
-    voltage /= (pow(2, BIT_RESOLUTION));  // the resolution thingy
+    voltage /= (pow(2, BIT_RESOLUTION));  // the bit resolution
     voltage *= 1000;                               // convert to voltage into milli volt
     temperature = (voltage - 500.0) / 10.0;        // calculate the temperature in celsius
     Serial.println(temperature);                   // Print out the temperature
