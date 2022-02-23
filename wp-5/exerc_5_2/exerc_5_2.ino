@@ -83,13 +83,13 @@ void tempRead()
 
 void handleLEDs()
 {
-    if (temperature < 15) {
+    if (temperature < 25) {
         PORTB = B00100000;
-    } else if (temperature >= 15 && temperature <20) {
+    } else if (temperature >= 25 && temperature <26) {
         PORTB = B00110000;
-    } else if (temperature >= 20 && temperature < 25) {
+    } else if (temperature >= 26 && temperature < 27) {
         PORTB = B00111000;
-    } else if (temperature >= 25 && temperature < 30) {
+    } else if (temperature >= 27 && temperature < 28) {
         PORTB = B00111100;
     } else {
         PORTB = B00111110;
