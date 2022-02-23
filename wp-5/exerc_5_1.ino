@@ -1,11 +1,11 @@
-// (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
+// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 5
 // Exercise 1
 // Submission code: xxxxxx
 
 
 // define pins to use
-#define PINS 0b11000000
+#define PINS 0b11000000 // pins 6 and 7
 
 void setup()
 {
@@ -21,8 +21,8 @@ void loop()
 
 void blink_led()
 {
-  PORTD = 0b11000000; // turn on led
+  PORTD = 0b11000000; // turn on led on pin 7
   delay(1000); // Wait for 1000 millisecond(s)
-  PORTD = 0b01000000; // turn off led
+  PORTD = 0b01000000; // turn off led on pin 7
   delay(1000); // Wait for 1000 millisecond(s)
 }
