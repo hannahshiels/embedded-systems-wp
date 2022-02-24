@@ -52,7 +52,7 @@ void turn_on_led(int PIN) {
    if (digitalRead(PIN) != HIGH)// if the led isn't already on
    {
       digitalWrite(PIN, HIGH);// turn on led
-      delay(500);             // wait half a second
+      delay(INTERVAL_MS / 2); // wait half a second
    }
 }
 
@@ -72,7 +72,7 @@ void turn_off_leds(int PIN) {
    }
 }
 
-void handle_leds(char color, int pin) {
+void handle_leds(char color[], int pin) {
    Serial.println(color);// print the color of the led
    turn_off_leds(pin);   // turn off all leds but the one connected to pin
    turn_on_led(pin);     // turn on led connected to pin
