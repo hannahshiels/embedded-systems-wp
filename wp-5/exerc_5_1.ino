@@ -6,12 +6,16 @@
 
 // define pins to use
 #define PINS 0b11000000 // pins 6 and 7
+// define pins that are set to HIGH 
+#define BUTTON_PIN_ON 0b01000000 // digital pin 6 high
+#define LED_BUTTON_ON 0b11000000 // digital pins 6 and 7
+
+#define DELAY 1000 // milliseconds to delay, 1 second
 
 void setup()
 {
   DDRD = PINS; // set up pins 6 and 7
-  PORTD = 0b01000000; // sets digital pin 6 HIGH, turns on second led when button is pressed
-  Serial.begin(9600); // begin serial monitor
+  PORTD = BUTTON_PIN_ON; // sets digital pin 6 HIGH, turns on second led when button is pressed
 }
 
 void loop()
@@ -21,8 +25,8 @@ void loop()
 
 void blink_led()
 {
-  PORTD = 0b11000000; // turn on led on pin 7
-  delay(1000); // Wait for 1000 millisecond(s)
-  PORTD = 0b01000000; // turn off led on pin 7
-  delay(1000); // Wait for 1000 millisecond(s)
+  PORTD = LED_BUTTON_ON; // turn on led on pin 7
+  delay(DELAY); // wait for 1000 millisecond(s)
+  PORTD = BUTTON_PIN_ON; // turn off led on pin 7
+  delay(DELAY); // wait for 1000 millisecond(s)
 }
