@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeli Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 3
 // Exercise 2
-// Submission code: xxxxxx
+// Submission code: 836121
 
 // INCLUDE
 #include <DHT.h>
