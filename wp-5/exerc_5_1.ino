@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 5
 // Exercise 1
-// Submission code: xxxxxx
+// Submission code: 836121
 
 
 // define pins to use
