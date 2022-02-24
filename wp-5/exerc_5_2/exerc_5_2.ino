@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 5
 // Exercise 2
-// Submission code:
+// Submission code: 836121
 
 /**
  * Create a system based on Arduino Uno or Arduino Yun, which measures the temperature and lids the LEDs. You should use
@@ -81,17 +81,17 @@ void tempRead()
     Serial.println(temperature);                   // Print out the temperature
 }
 
-void handleLEDs()
+void handleLEDs()             //To set the LEDs on or off based on the temperature
 {
-    if (temperature < 25) {
-        PORTB = B00100000;
-    } else if (temperature >= 25 && temperature <26) {
-        PORTB = B00110000;
-    } else if (temperature >= 26 && temperature < 27) {
-        PORTB = B00111000;
-    } else if (temperature >= 27 && temperature < 28) {
-        PORTB = B00111100;
-    } else {
-        PORTB = B00111110;
+    if (temperature < 25) {     //If the temperature is lower than 25 celsius
+        PORTB = B00100000;      //Turn on the pin 13 on port B
+    } else if (temperature >= 25 && temperature <26) {   //If the temperature is between 25 and 26
+        PORTB = B00110000;                               //Turn on the pin 13and 12 on port B
+    } else if (temperature >= 26 && temperature < 27) {  //If the temperature is between 26 and 27
+        PORTB = B00111000;                               //Turn on the pin 13and 12 & 11 on port B
+    } else if (temperature >= 27 && temperature < 28) {  //If the temperature is between 27 and 28
+        PORTB = B00111100;                               //Turn on the pin 13and 12 & 11 & 10 on port B
+    } else {               //If the temperature is more than 28
+        PORTB = B00111110; //Turn on the pin 13and 12 & 11 & 10 & 9 on port B
     }
 }
