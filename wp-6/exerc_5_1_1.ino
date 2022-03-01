@@ -26,17 +26,13 @@ int speed = 0;   // Desired motor speed
 const char SPEED[] = "Please enter the desired speed(0-255): ";                // speed input qestion
 const char DIRECTION[] = "Please enter the desired direction(left or right): ";// direction input qestion
 
-// FUNCTION DECLARATIONS
-void getInput(char const string[], char input);
 
 void setup() {
    Serial.begin(DATA_RATE);// set serial data rate
    pinMode(PWM1, OUTPUT);  // set PWm to output
    pinMode(PWM2, OUTPUT);  // set PWm to output
 
-   fix_bug(); // deal with TinkerCad bug
-   fix_bug2();// deal with TinkerCad bug
-
+   fix_bug();    // deal with TinkerCad bug
    input_start();// start input
 }
 
@@ -47,16 +43,12 @@ void loop() {
       // Send the speed signal to motor
       // Rotating clockwise
       if (!strcmp(direction, RIGHT)) {
-         if (speed < 100)// motor does not react with too low inputs
-            speed = 100;
-         analogWrite(PWM2, 0);
+         analogWrite(PWM2, 0);// Write
          analogWrite(PWM1, speed);
          direction = "";// reset direction input
       }
       // Rotating counter-clockwise
       else if (!strcmp(direction, LEFT)) {
-         if (-speed < 100)// motor does not react with too low inputs
-            speed = -100;
          analogWrite(PWM1, 0);
          analogWrite(PWM2, -speed);
          direction = "";// reset direction input
@@ -100,12 +92,4 @@ void fix_bug() {
    analogWrite(PWM2, 10);
    delay(1000);// TinkerCad bug
    analogWrite(PWM1, 10);
-}
-
-// Tinkercad bug fix 2
-void fix_bug2() {
-   // Stop the motor, but not to zero because then TinkerCad dies....
-   analogWrite(PWM1, 10);
-   delay(1000);// TinkerCad...bug
-   analogWrite(PWM2, 10);
 }
