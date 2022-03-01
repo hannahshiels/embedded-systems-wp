@@ -100,12 +100,12 @@ void lockIn()
   }
   else
   {
-    Serial.print("Locking on segment: 7 ");  // print msg
+    Serial.println("Valid address entered"); // print valid address msg
+    Serial.println("Locking on segment: 7 ");  // print msg
     turnOffLeds();                           // turn off all leds
     blink_segments(7, 255, 0, 0);            // blink current amount of segments
     turnOffLeds();                           // turn off leds
     blink_segments(6, 255, 0, 0);            // blink current amount of segments
-    Serial.println("Valid address entered"); // print valid address msg
   }
 }
 
