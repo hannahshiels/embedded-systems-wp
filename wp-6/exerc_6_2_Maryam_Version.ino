@@ -34,13 +34,6 @@ void loop() {
 
     startMotor();       //Starts the motor with the user input
     positionHandler();  //Handles the calculation related to degree and the position of the motor
-    //The encoder testing-----------------------------------------------------------------------------------------------
-
-
-    Serial.print("The motor position:   ");
-    Serial.println(position);
-
-    //End of testing----------------------------------------------------------------------------------------------------
     delay(1000);                             //To improve performance?
 }
 
@@ -59,12 +52,13 @@ void positionHandler()
     Serial.print("Position:   ");      //Print out the position
     Serial.println(position);
 
-    Serial.print("Position in degree:  ");  //Print out the degree
+    Serial.print("Position in degree:   ");  //Print out the degree
     Serial.println(degree);
 }
 
 void readEncoder()
 {
+    encoderA = digitalRead(ENCA);    //Read the pin for encoder A only to fulfill WP description...
     encoderB = digitalRead(ENCB);    //Read the pin for encoder B
     if(encoderB > 0){                //If encoder B is already high it means the rotation is CW
         position++;                  //add 1 to the position
