@@ -26,7 +26,6 @@ int speed = 0;   // Desired motor speed
 const char SPEED[] = "Please enter the desired speed(0-255): ";                // speed input qestion
 const char DIRECTION[] = "Please enter the desired direction(left or right): ";// direction input qestion
 
-
 void setup() {
    Serial.begin(DATA_RATE);// set serial data rate
    pinMode(PWM1, OUTPUT);  // set PWm to output
@@ -37,7 +36,6 @@ void setup() {
 }
 
 void loop() {
-
    // Loop as long as direction input is left or right
    while (!strcmp(direction, LEFT) || !strcmp(direction, RIGHT)) {
       // Send the speed signal to motor
@@ -50,7 +48,7 @@ void loop() {
       // Rotating counter-clockwise
       else if (!strcmp(direction, LEFT)) {
          analogWrite(PWM1, 0);
-         analogWrite(PWM2, -speed);
+         analogWrite(PWM2, speed);
          direction = "";// reset direction input
       }
 
