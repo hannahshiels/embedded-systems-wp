@@ -15,7 +15,7 @@ int encoderB = 0;             //The reading from encoder B pin is stored here
 int position = 0;             //The position of the motor is stored in here
 int degree = 0;               //The position of the motor in degree
 int error = 0;                //The differentiation value between the current and desired degree is stored here
-int kp = 5;                   //To tune the correction
+int kp = 50;                   //To tune the correction
 
 //---------Main Body-------
 
