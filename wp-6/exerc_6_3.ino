@@ -128,14 +128,17 @@ void blink_segments(int pair, int r, int g, int b)
 void errorLights()
 {
   Serial.println("Wrong address entered"); // print out error message
-  // blink all leds 4 times
-  for (int i = 0; i < 4; i++)
+  for (int i = 0; i < 4; i++)   // blink all leds 4 times
   {
     turnOffLeds();                        // turn off all leds
     delay(50);                            // wait a bit
     pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
     pixels.show();                        // show leds with new color
+    turnOffLeds();                        // turn off all leds
     delay(50);                            // wait a bit
+    pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
+    pixels.show();  
+    delay(150);                            // wait a bit
   }
   turnOffLeds(); // turn off all leds
   delay(1000);   // wait a second
