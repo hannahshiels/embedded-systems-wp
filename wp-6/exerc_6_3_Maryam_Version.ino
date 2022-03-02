@@ -26,7 +26,7 @@ void setup() {
     pinMode(ENCA, INPUT_PULLUP);         //Set encoder pins as input
     pinMode(ENCB, INPUT_PULLUP);         //Set encoder pins as input
     attachInterrupt(digitalPinToInterrupt(ENCA), readEncoder, RISING);   //If the value of encoder A rises, this interrupt
-                                                                         //is getting triggered
+    //is getting triggered
     fix_bug();         //resolve tinker cad bug
 }
 
@@ -69,7 +69,7 @@ void speedHandler(int speed)
     } else                  //if the rotation direction must be cw
     {
         analogWrite(motorA, speed);          //move the motor with this speed
-        digitalWrite(motorB, 0);             //rotate the motor in a cw direction
+        digitalWrite(motorB, 1);             //rotate the motor in a cw direction
     }
 
 }
