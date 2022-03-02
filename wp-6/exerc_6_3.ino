@@ -106,7 +106,7 @@ void lockIn()
     turnOffLeds();                            // turn off all leds
     blink_segments(7, 255, 0, 0);             // blink current amount of segments
     turnOffLeds();                            // turn off leds
-    blink_segments(6, 255, 0, 0);             // blink current amount of segments
+    blink_segments(7, 255, 0, 0);             // blink current amount of segments
   }
 }
 
@@ -129,9 +129,9 @@ void errorLights()
   Serial.println("Wrong address entered"); // print out error message
   for (int i = 0; i < 4; i++)              // blink all leds 3 times
   {
-
-    blinkAllLedsRed(); // blink all leds red
-    delay(150);        // wait a bit
+  
+   	blinkAllLedsRed(); // blink all leds red
+    delay(150);                           // wait a bit
   }
   turnOffLeds(); // turn off all leds
   delay(1000);   // wait a second
@@ -139,11 +139,11 @@ void errorLights()
 
 void blinkAllLedsRed() // turn on all leds red and turn off again
 {
-  turnOffLeds();                        // turn off all leds
-  delay(50);                            // wait a bit
-  pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
-  pixels.show();                        // show leds with new color
-  delay(50);                            // wait a bit
+    turnOffLeds();                        // turn off all leds
+    delay(50);                            // wait a bit
+    pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
+    pixels.show();                        // show leds with new color
+	delay(50); // wait a bit
 }
 
 // set on the colours of the current amount of segments on
