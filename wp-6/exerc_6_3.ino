@@ -3,9 +3,9 @@
 // Exercise 3
 // Submission code: xxxxxx
 // Tinkercad link: https://www.tinkercad.com/things/1OUts8lO2KQ-wp6-ex3/editel?sharecode=0mj_UTuvpWQJf6feKJ-VngEFTXkAEOaM4D6IxQ3A4o0
-#include <Adafruit_NeoPixel.h>
+#include <Adafruit_NeoPixel.h> 
 #include <Keypad.h>
-#include <string.h>
+#include <string.h> // for comparison of strings
 
 // CONSTANTS
 #define NUMBER_OF_PIXELS 24                                                                                                // The number of pixels in a neo pixel
@@ -23,10 +23,11 @@ int currentAmtElements = 0;            // keep track of amount of elements enter
 const char ROWS = 4;               // row amount
 const char COLUMNS = 4;            // column amount
 const char KEYS[ROWS][COLUMNS] = { // configure possible KeyPad keys
-    {'1', '2', '3', 'A'},
-    {'4', '5', '6', 'B'},
-    {'7', '8', '9', 'C'},
-    {'*', '0', '#', 'D'}};
+  {'1', '2', '3', 'A'},
+  {'4', '5', '6', 'B'},
+  {'7', '8', '9', 'C'},
+  {'*', '0', '#', 'D'}
+};
 
 // VARIABLES
 byte R_PINS[ROWS] = {11, 10, 9, 8};                                      // Pins for keypad rows - B8-B11
@@ -41,15 +42,15 @@ void setup()
 
 void loop()
 {
-  if (currentAmtElements != DIGIT_COUNT)
-  {                                    // if not all 7 digits have been entered
+  if (currentAmtElements != DIGIT_COUNT) // if not all 7 digits have been entered
+  { 
     char pressedKey = keypad.getKey(); // get pressed key
     addKey(pressedKey);                // add key to array of all entered digits
   }
-  else
+  else // otherwise
   {
-    for (int i = 0; i < 24; i++)
-    {              // Loop through all LEDs
+    for (int i = 0; i < 24; i++) // loop through all LEDs in neopixel
+    { 
       setColor(i); // set the color of LEDs and turn the neo pixel on
       delay(50);   // add small delay between leds turning on
     }
@@ -65,11 +66,11 @@ void loop()
 // add key entered to array and print it out
 void addKey(char key)
 {
-  if (key != 0 && key != '#' && key != '*')
-  {                                           // if key isn't empty, and is a valid input
+  if (key != 0 && key != '#' && key != '*') // if key isn't empty, and is a character from the list of valid addresses
+  { 
     digits_entered[currentAmtElements] = key; // set key to current amount of elements in array
     currentAmtElements++;                     // increase current of amount of elements
-    Serial.print("Key entered: ");
+    Serial.print("Key entered: "); // print msg
     Serial.println(key); // print the pressed key
   }
 }
@@ -94,11 +95,11 @@ void lockIn()
     blink_segments(i, 255, 0, 0);         // blink current amount of segments
     delay(2000);                          // wait a bit
   }
-  if (checkValidAddress() == 1)
-  {                // if the address is valid
+  if (checkValidAddress() == 1) // if the address is valid
+  { 
     errorLights(); // show error animation if the entered digits entered do not match any valid address
   }
-  else
+  else // otherwise
   {
     Serial.println("Valid address entered"); // print valid address msg
     Serial.println("Locking on segment: 7 ");  // print msg
@@ -139,10 +140,11 @@ void errorLights()
   delay(1000);   // wait a second
 }
 
+// set on the colours of the current amount of segments on
 void setSegmentsOn(int i, int r, int g, int b)
 {
-  for (int j = 0; j < i + 1; j++)
-  {                                                           // turn on all leds corresponding to the amount of segments currently added
+  for (int j = 0; j < i + 1; j++) // turn on all leds corresponding to the amount of segments currently added
+  { 
     pixels.setPixelColor(pairs[j][0], pixels.Color(r, g, b)); // set the LED color of first number in pair
     pixels.setPixelColor(pairs[j][1], pixels.Color(r, g, b)); // set the LED color of second number in pair
   }
@@ -155,8 +157,8 @@ int checkValidAddress()
   enteredStr[7] = '\0';                   // add null character as last element, so string is correctly compared
   for (int i = 0; i < 8; i++)
   { // loop through the number of valid addresses
-    if (strcmp(enteredStr, valid_addresses[i]) == 0)
-    {           // compare the digits entered to the current valid address
+    if (strcmp(enteredStr, valid_addresses[i]) == 0)  // compare the digits entered to the current valid address, if they match
+    {
       return 0; // return 0 if strings match
     }
   }
@@ -169,14 +171,14 @@ void setColor(int i)
   int green = 0; // store amount of green
   int blue = 0;  // store amount of blue
 
-  if (i % 2 == 0)
-  {            // if led is even
+  if (i % 2 == 0) // if led is even
+  { 
     red = 255; // set amount of red
     green = 0; // set amount of green
     blue = 0;  // set amount of blue
   }
-  else
-  {             // otherwise
+  else // otherwise
+  { 
     red = 0;    // set amount of red
     green = 0;  // set amount of green
     blue = 255; // set amount of red
