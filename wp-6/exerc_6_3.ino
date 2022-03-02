@@ -22,7 +22,8 @@ int currentAmtElements = 0;            // keep track of amount of elements enter
 // CONSTANTS
 const char ROWS = 4;               // row amount
 const char COLUMNS = 4;            // column amount
-const char KEYS[ROWS][COLUMNS] = { // configure possible KeyPad keys
+// configure possible KeyPad keys
+const char KEYS[ROWS][COLUMNS] = { 
   {'1', '2', '3', 'A'},
   {'4', '5', '6', 'B'},
   {'7', '8', '9', 'C'},
@@ -36,7 +37,7 @@ Keypad keypad = Keypad(makeKeymap(KEYS), R_PINS, C_PINS, ROWS, COLUMNS); // KeyP
 
 void setup()
 {
-  pixels.begin();     // Initialize the library
+  pixels.begin();     // initialize the neopixel
   Serial.begin(9600); // begin serial monitor
 }
 
@@ -155,8 +156,8 @@ int checkValidAddress()
   char enteredStr[8];                     // store string in this
   strncpy(enteredStr, digits_entered, 7); // convert digits entered char array to a string
   enteredStr[7] = '\0';                   // add null character as last element, so string is correctly compared
-  for (int i = 0; i < 8; i++)
-  { // loop through the number of valid addresses
+  for (int i = 0; i < 8; i++) // loop through the number of valid addresses
+  { 
     if (strcmp(enteredStr, valid_addresses[i]) == 0)  // compare the digits entered to the current valid address, if they match
     {
       return 0; // return 0 if strings match
