@@ -8,6 +8,7 @@
 
 
 //-------Variable Declaration--------
+bool motorStarted = false;    //To check if the user has entered the required inputs already
 int speedInput = 0;           //The variable that stores the speed input from the user
 int directionInput = 0;       //The variable that stored the direction input from the user
 int encoderA = 0;             //The reading from encoder A pin is stored here
@@ -32,9 +33,13 @@ void setup() {
 
 void loop() {
 
-    startMotor();       //Starts the motor with the user input
+    if(!motorStarted)       //If the motor's speed and direction has not been set before
+    {
+        startMotor();       //Starts the motor with the user input
+        motorStarted = true;//change the status so that this method is not called in the future iterations.(performance)
+    }
     positionHandler();  //Handles the calculation related to degree and the position of the motor
-    delay(1000);                             //To improve performance?
+    delay(20);                             //To improve performance?
 }
 
 void positionHandler()
@@ -49,11 +54,9 @@ void positionHandler()
         position = 2299 + position;    //calculate the equivalent positive position
     }
 
-    Serial.print("Position:   ");      //Print out the position
-    Serial.println(position);
+    Serial.println("Position            |" + (String) position);          //Print out the position
+    Serial.println("Position in degree  |" + (String) degree);  //Print out the degree
 
-    Serial.print("Position in degree:   ");  //Print out the degree
-    Serial.println(degree);
 }
 
 void readEncoder()
@@ -70,10 +73,8 @@ void readEncoder()
 
 void startMotor()
 {
-    Serial.print("your speed input:  ");               //Debugging in the serial
-    Serial.println(speedInput);                        //Debugging in the serial
-    Serial.print("your rotation direction input:  ");  //Debugging in the serial
-    Serial.println(directionInput);                    //Debugging in the serial
+    Serial.print("your speed input               |" + (String) speedInput);     //Debugging in the serial
+    Serial.print("your rotation direction input  |" + (String)directionInput);  //Debugging in the serial
     analogWrite(motorA,speedInput);          //move the motor with a certain speed
     digitalWrite(motorB,directionInput);     //rotate the motor in a certain direction
 }
@@ -96,7 +97,7 @@ void fix_bug() {
     analogWrite(motorA, 10);
 }
 
-// Tinkercad bug fix 2
+// Tinker cad bug fix 2
 void fix_bug2() {
     // Stop the motor, but not to zero because then TinkerCad dies....
     analogWrite(motorA, 10);
