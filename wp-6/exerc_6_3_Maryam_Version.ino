@@ -22,13 +22,16 @@ int b = 0; // b-encoder signal
 
 void setup() {
 
-    Serial.begin(9600);
+    Serial.begin(9600); // Initialize serial
+    
+    // Set pin modes
     pinMode(ENCA,INPUT_PULLUP);
     pinMode(ENCB,INPUT_PULLUP);
     pinMode(PWM1,OUTPUT);
     pinMode(PWM2,OUTPUT);
 
     attachInterrupt(digitalPinToInterrupt(ENCA), ISR_readEncoder, RISING);  //interrupt for encoder a
+    
     // Start the motor, just a tiny little bit because otherwise TinkerCad dies....
     analogWrite(PWM2, 10);
     delay(1000); // TinkerCad bug
@@ -42,6 +45,7 @@ void loop() {
     analogWrite(PWM2, 10);
 
     deg = map(pos,0,2299,0,359);   //get the new degree after error handling of the tinker cad
+    
     // Check if motor rotated all the way around, and reset counter
     if (pos > 2299){  //if the pulses are more than the total pulses ina  round
         deg = deg - 359;   //find and replace the corresponding value for the degree between 0-360
@@ -76,16 +80,16 @@ void loop() {
         if(speed >= 0){
             if (speed < 100) // motor does not react with too low inputs
                 speed = 100;
-            analogWrite(PWM2, 0);
-            analogWrite(PWM1, speed);
+            analogWrite(PWM2, 0); // Set to off
+            analogWrite(PWM1, speed); // Set to 'speed'
         }
 
             // Rotating counter-clockwise
         else{
             if (-speed < 100) // motor does not react with too low inputs
                 speed = -100; //set the speed to this value in case of too low speeds
-            analogWrite(PWM1, 0);
-            analogWrite(PWM2, -speed);
+            analogWrite(PWM1, 0); // Set to off
+            analogWrite(PWM2, -speed); // Set to 'speed'
         }
         // Calculate new error
         e = -degtarget + deg;
@@ -103,6 +107,7 @@ void loop() {
     delay(20);   //To increase performance. this shouldn't be increased too much otherwise tinker cad dies
 }
 
+// print current degree and motor position
 void serial_messages()
 {
     Serial.print("The current degree is: ");
@@ -139,7 +144,7 @@ int getAction(int error){
         return -255;
     }
     else
-        return u_out;
+        return u_out; // else set to calculated value
 }
 
 void ISR_readEncoder(){
