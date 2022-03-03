@@ -1,5 +1,8 @@
+// (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
+// Work package 6
+// Exercise 1
+// Submission code: 947236
 
-// WP 6 Exercise 1 Template DIT 632
 
 #define ENCA 2   //the pin for encoder A
 #define ENCB 3   //The pin for encoder B
