@@ -8,8 +8,13 @@
 #include <string.h> // for comparison of strings
 
 // CONSTANTS
-#define NUMBER_OF_PIXELS 24                                                                                                // The number of pixels in a neo pixel
-#define NEO_PIN 2                                                                                                          // The digital pin that the neo pixel is connected through
+#define KEY_ENTERED_MESSAGE "Key entered: "       // key message
+#define VALID_MESSAGE "Valid address entered"     // valid message
+#define ERROR_MESSAGE "Wrong address entered"     // error message
+#define LOCKING_ON_MESSAGE "Locking on segment: " // locking on message
+#define NUMBER_OF_PIXELS 24                       // neopixel leds                                                                                         // The number of pixels in a neo pixel
+#define NEO_PIN 2                                 // pin for neopixel                                                                                                  // The digital pin that the neo pixel is connected through
+
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMBER_OF_PIXELS, NEO_PIN, NEO_GRB + NEO_KHZ800);                             // To use the neo library
 const char *valid_addresses[8] = {"1AC91BD", "342824A", "6D1732B", "52A64AC", "413553A", "34246CC", "23B393B", "9999999"}; // list of valid addresses to accept
 
@@ -30,8 +35,8 @@ const char KEYS[ROWS][COLUMNS] = {
     {'*', '0', '#', 'D'}};
 
 // VARIABLES
-byte R_PINS[ROWS] = {11, 10, 9, 8};                                      // Pins for keypad rows - B8-B11
-byte C_PINS[COLUMNS] = {7, 6, 5, 4};                                     // Pins for keypad columns - D4-D7
+byte R_PINS[ROWS] = {11, 10, 9, 8};                                      // Pins for keypad rows
+byte C_PINS[COLUMNS] = {7, 6, 5, 4};                                     // Pins for keypad columns
 Keypad keypad = Keypad(makeKeymap(KEYS), R_PINS, C_PINS, ROWS, COLUMNS); // KeyPad
 
 void setup()
@@ -49,17 +54,17 @@ void loop()
   }
   else // otherwise
   {
-    for (int i = 0; i < 24; i++) // loop through all LEDs in neopixel
+    for (int i = 0; i < NUMBER_OF_PIXELS; i++) // loop through all LEDs in neopixel
     {
       setColor(i); // set the color of LEDs and turn the neo pixel on
       delay(50);   // add small delay between leds turning on
     }
     turnOffLeds();          // turn off all leds
-    delay(100);             // wait 100 miliseconds
+    delay(2000);            // wait 2 seconds before locking in
     lockIn();               // lock in on each of the segements of the neopixels
-    delay(2500);            // wait 2 and half seconds after locking in is done
-    currentAmtElements = 0; // reset amount of elements entered
+    delay(2000);            // wait 2 seconds after locking in is done
     turnOffLeds();          // turn off all leds
+    currentAmtElements = 0; // reset amount of elements entered
   }
 }
 
@@ -70,7 +75,7 @@ void addKey(char key)
   {
     digits_entered[currentAmtElements] = key; // set key to current amount of elements in array
     currentAmtElements++;                     // increase current of amount of elements
-    Serial.print("Key entered: ");            // print msg
+    Serial.print(KEY_ENTERED_MESSAGE);        // print msg
     Serial.println(key);                      // print the pressed key
   }
 }
@@ -85,15 +90,15 @@ void turnOffLeds()
 // used for "locking in" to each segment
 void lockIn()
 {
-  // for all segments that can be turned on
-  for (int i = 0; i < 6; i++)
+  // for all segments that can be turned on except the last one
+  for (int i = 0; i < DIGIT_COUNT - 1; i++)
   {
-    Serial.print("Locking on segment: "); // print msg
-    Serial.println((i + 1));              // print segment num
-    blink_segments(i, 255, 0, 0);         // blink current amount of segments
-    turnOffLeds();                        // turn off all leds
-    blink_segments(i, 255, 0, 0);         // blink current amount of segments
-    delay(2000);                          // wait a bit
+    Serial.print(LOCKING_ON_MESSAGE); // print locking on msg
+    Serial.println((i + 1));          // print segment num
+    blink_segments(i, 255, 0, 0);     // blink current amount of segments
+    turnOffLeds();                    // turn off all leds
+    blink_segments(i, 255, 0, 0);     // blink current amount of segments
+    delay(2000);                      // wait 2 seconds
   }
   if (checkValidAddress() == 1) // if the address is valid
   {
@@ -101,12 +106,13 @@ void lockIn()
   }
   else // otherwise
   {
-    Serial.println("Valid address entered");  // print valid address msg
-    Serial.println("Locking on segment: 7 "); // print msg
-    turnOffLeds();                            // turn off all leds
-    blink_segments(7, 255, 0, 0);             // blink current amount of segments
-    turnOffLeds();                            // turn off leds
-    blink_segments(7, 255, 0, 0);             // blink current amount of segments
+    Serial.println(VALID_MESSAGE);          // print valid address msg
+    Serial.print(LOCKING_ON_MESSAGE);       // print locking on msg
+    Serial.println(DIGIT_COUNT);            // print last segment that will be turned on
+    turnOffLeds();                          // turn off all leds
+    blink_segments(DIGIT_COUNT, 255, 0, 0); // blink current amount of segments
+    turnOffLeds();                          // turn off leds
+    blink_segments(DIGIT_COUNT, 255, 0, 0); // blink current amount of segments
   }
 }
 
@@ -126,24 +132,24 @@ void blink_segments(int pair, int r, int g, int b)
 // show error animation on neo pixel if entered address if wrong
 void errorLights()
 {
-  Serial.println("Wrong address entered"); // print out error message
-  for (int i = 0; i < 4; i++)              // blink all leds 3 times
+  Serial.println(ERROR_MESSAGE); // print out error message
+  for (int i = 0; i < 4; i++)    // blink all leds a few times
   {
-  
-   	blinkAllLedsRed(); // blink all leds red
-    delay(150);                           // wait a bit
+    blinkAllLedsRed(); // blink all leds red
+    delay(150);        // wait a bit
   }
   turnOffLeds(); // turn off all leds
   delay(1000);   // wait a second
 }
 
-void blinkAllLedsRed() // turn on all leds red and turn off again
+// turn on all leds red and turn off again
+void blinkAllLedsRed()
 {
-    turnOffLeds();                        // turn off all leds
-    delay(50);                            // wait a bit
-    pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
-    pixels.show();                        // show leds with new color
-	delay(50); // wait a bit
+  turnOffLeds();                        // turn off all leds
+  delay(50);                            // wait a bit
+  pixels.fill(pixels.Color(255, 0, 0)); // set all leds red
+  pixels.show();                        // show leds with new color
+  delay(50);                            // wait a bit
 }
 
 // set on the colours of the current amount of segments on
@@ -156,6 +162,7 @@ void setSegmentsOn(int i, int r, int g, int b)
   }
 }
 
+// check if the address entered is valid
 int checkValidAddress()
 {
   char enteredStr[8];                     // store string in this
@@ -171,6 +178,7 @@ int checkValidAddress()
   return 1; // return 1 if there is no match
 }
 
+// set the color of led inputted to function on based on whether they are odd or even
 void setColor(int i)
 {
   int red = 0;   // store amount of red
