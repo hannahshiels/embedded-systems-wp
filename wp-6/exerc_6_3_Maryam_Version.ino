@@ -15,7 +15,7 @@ int encoderB = 0;             //The reading from encoder B pin is stored here
 int position = 0;             //The position of the motor is stored in here
 int degree = 0;               //The position of the motor in degree
 int error = 0;                //The differentiation value between the current and desired degree is stored here
-int kp = 50;                   //To tune the correction
+int kp = 5;                   //To tune the correction
 
 //---------Main Body-------
 
@@ -32,6 +32,8 @@ void setup() {
 
 void loop() {
     fix_bug2();         //resolve tinker cad bug
+    position = 0;
+    degree = 0;
     getInput();         //Get the desired position from the user and store it
     error = degreeInput - degree;
     while (error)
@@ -41,10 +43,10 @@ void loop() {
         error = +degreeInput - degree;  //get the current degree after turning on the motor
         if (!error)                    //To stop the motor in case of reaching to the desired position
         {
-            analogWrite(motorA, error);   //Stop the motor
+            analogWrite(motorA, 0);   //Stop the motor
         }
         Serial.println("err:  " + (String) error);  //Print out the error
-        delay(10);                             //To improve performance?
+//        delay(10);                             //To improve performance?
     }
 
 
