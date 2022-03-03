@@ -1,7 +1,7 @@
 // (C) Maryam Esmaeili Darestani, Lucas Nordgren, Hannah Shiels: Group 6 2022
 // Work package 6
 // Exercise 3
-// Submission code: xxxxxx
+// Submission code: 947236
 // Tinkercad link: https://www.tinkercad.com/things/1OUts8lO2KQ-wp6-ex3/editel?sharecode=0mj_UTuvpWQJf6feKJ-VngEFTXkAEOaM4D6IxQ3A4o0
 #include <Adafruit_NeoPixel.h>
 #include <Keypad.h>
