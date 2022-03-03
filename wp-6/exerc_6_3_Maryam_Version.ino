@@ -1,127 +1,155 @@
-//Tinker cad link : https://www.tinkercad.com/things/b12WVXzj9o2-wp6exerc1/editel
 
-//--------Defines-----
-#define motorA 9      //The pin allocated to the motor responsible for speed
-#define motorB 10     //The pin allocated to the motor responsible for the direction
-#define ENCA 2        //The pin allocated to encoder A
-#define ENCB 3        //The pin allocated to encoder B
+// WP 6 Exercise 1 Template DIT 632
 
+#define ENCA 2   //the pin for encoder A
+#define ENCB 3   //The pin for encoder B
+#define PWM1 9   //The pin for speed motor
+#define PWM2 10  //The pin for rotation motor
 
-//-------Variable Declaration--------
-bool motorStarted = false;    //To check if the user has entered the required inputs already
-int degreeInput = 0;           //The variable that stores the desired degree input from the user
-int encoderA = 0;             //The reading from encoder A pin is stored here
-int encoderB = 0;             //The reading from encoder B pin is stored here
-int position = 0;             //The position of the motor is stored in here
-int degree = 0;               //The position of the motor in degree
-int error = 0;                //The differentiation value between the current and desired degree is stored here
-int kp = 5;                   //To tune the correction
+int pos = 0; // Position in ticks
+int deg = 0; // Position in degrees
 
-//---------Main Body-------
+int degtarget = 0; // Target position in degrees
+
+int speed = 0; // Desired motor speed
+
+int kp = 5; // Proportional constant for controller (tuning parameter)
+int u_out = 0; // output of controller
+
+int e = 0; // error
+int a = 0; // a-encoder signal
+int b = 0; // b-encoder signal
 
 void setup() {
-    Serial.begin (9600);                 //Initiate serial
-    pinMode(motorA,OUTPUT);              //Set speed pin as output
-    pinMode(motorB,OUTPUT);              //Set direction pin as output
-    pinMode(ENCA, INPUT_PULLUP);         //Set encoder pins as input
-    pinMode(ENCB, INPUT_PULLUP);         //Set encoder pins as input
-    attachInterrupt(digitalPinToInterrupt(ENCA), readEncoder, RISING);   //If the value of encoder A rises, this interrupt
-    //is getting triggered
-    fix_bug();         //resolve tinker cad bug
+
+    Serial.begin(9600);
+    pinMode(ENCA,INPUT_PULLUP);
+    pinMode(ENCB,INPUT_PULLUP);
+    pinMode(PWM1,OUTPUT);
+    pinMode(PWM2,OUTPUT);
+
+    attachInterrupt(digitalPinToInterrupt(ENCA), ISR_readEncoder, RISING);  //interrupt for encoder a
+    // Start the motor, just a tiny little bit because otherwise TinkerCad dies....
+    analogWrite(PWM2, 10);
+    delay(1000); // TinkerCad bug
+    analogWrite(PWM1, 10);
 }
 
 void loop() {
-    fix_bug2();         //resolve tinker cad bug
-    position = 0;
-    degree = 0;
-    getInput();         //Get the desired position from the user and store it
-    error = degreeInput - degree;
-    while (error)
-    {
-        speedHandler(error);           //Set the speed and rotation direction of the motor to get to the desired position
-        positionHandler();             //Handles the calculation related to degree and the position of the motor
-        error = +degreeInput - degree;  //get the current degree after turning on the motor
-        if (!error)                    //To stop the motor in case of reaching to the desired position
-        {
-            analogWrite(motorA, 0);   //Stop the motor
+    // Stop the motor, but not to zero because then TinkerCad dies....
+    analogWrite(PWM1, 10);
+    delay(1000); // TinkerCad...bug
+    analogWrite(PWM2, 10);
+
+    deg = map(pos,0,2299,0,359);   //get the new degree after error handling of the tinker cad
+    // Check if motor rotated all the way around, and reset counter
+    if (pos > 2299){  //if the pulses are more than the total pulses ina  round
+        deg = deg - 359;   //find and replace the corresponding value for the degree between 0-360
+        pos = pos - 2299;   //find and replace the corresponding value for the position between 0-2300
+    }
+    if (pos < 0){       //same as above for negative positions
+        deg = 359 + deg;
+        pos = 2299 + pos;
+    }
+
+    // Print current position
+    Serial.println("New input----------------------------------------------");
+    serial_messages();
+
+    // Get input
+    degtarget = getInput();
+
+    // Calculate initial error
+    e = degtarget - deg;
+
+    // Loop until error is zero
+    while(e){
+
+        // Map current position into degrees
+        deg = map(pos,0,2299,0,359);
+
+        // Get necessary speed signal
+        speed = getAction(e);
+
+        // Send speed signal to motor
+        // Rotating clockwise
+        if(speed >= 0){
+            if (speed < 100) // motor does not react with too low inputs
+                speed = 100;
+            analogWrite(PWM2, 0);
+            analogWrite(PWM1, speed);
         }
-        Serial.println("err:  " + (String) error);  //Print out the error
-//        delay(10);                             //To improve performance?
+
+            // Rotating counter-clockwise
+        else{
+            if (-speed < 100) // motor does not react with too low inputs
+                speed = -100; //set the speed to this value in case of too low speeds
+            analogWrite(PWM1, 0);
+            analogWrite(PWM2, -speed);
+        }
+        // Calculate new error
+        e = -degtarget + deg;
+        if (!e)                    //To stop the motor in case of reaching to the desired position
+        {
+            analogWrite(PWM2, 0);   //Stop the motor
+        }
+        //print out the error in each iteration
+        Serial.println("The current error:   " + (String) e);
+
     }
+    //print out the values
+    serial_messages();
 
-
+    delay(20);   //To increase performance. this shouldn't be increased too much otherwise tinker cad dies
 }
 
-void speedHandler(int speed)
+void serial_messages()
 {
-    speed = kp * speed;    //tune the speed
-
-    if (speed > 255 || (speed > 0 && speed < 100))       //if the speed value is more than a byte
-    {
-        speed = 100;       //set this as the speed value
-    } else if (speed < -255 || (speed < 0 && speed > -100))  //if the speed value is more than a byte
-    {
-        speed = -100;         //set this as the speed value
-    }
-
-    if(speed < 0)           //if the rotation direction must be ccw
-    {
-        analogWrite(motorA, -speed);          //move the motor with this speed
-        digitalWrite(motorB, 0);              //rotate the motor in a ccw direction
-    } else                  //if the rotation direction must be cw
-    {
-        analogWrite(motorA, speed);          //move the motor with this speed
-        digitalWrite(motorB, 1);             //rotate the motor in a cw direction
-    }
-
+    Serial.print("The current degree is: ");
+    Serial.println(deg);
+    Serial.print("The current position is: ");
+    Serial.print(pos);
+    Serial.print("\n");
 }
 
-void positionHandler()
-{
-    degree = map(position,0,2299,0,359);    //Map the corresponding angle for current position in the motor
-    if (position > 2299){              //If the position is more than a whole round
-        degree = degree - 359;         //calculate the equivalent angle in a circle for the degree more than 360
-        position = position - 2299;    //calculate the equivalent position
-    }
-    if (position < 0){                 //If the position is negative
-        degree = 359 + degree;         //calculate the equivalent positive degree for the angle
-        position = 2299 + position;    //calculate the equivalent positive position
-    }
-    Serial.println("Position in degree  |" + (String) degree);            //Print out the degree
+int getInput(){
 
+    int ready = 0;       //to check if all the characters in the serial are read
+    char buf[3];        //the input will be saved here
+    int input = -1;     //the input converted into an int value is stored in here
+
+    Serial.print("Please enter the desired position: \n");  //ask for the user input
+
+    while(!ready){      //while the length of the input is not 0
+        ready = Serial.readBytes(buf,3);   //read the char in the input array
+        input = atoi(&buf[0]);    //convert the char into int
+    }
+
+    //return the input value
+    return input;
 }
 
-void readEncoder()
-{
-    encoderA = digitalRead(ENCA);    //Read the pin for encoder A only to fulfill WP description...
-    encoderB = digitalRead(ENCB);    //Read the pin for encoder B
-    if(encoderB > 0){                //If encoder B is already high it means the rotation is CW
-        position++;                  //add 1 to the position
+int getAction(int error){
+
+    u_out = kp * error;  //Tune the value of motor speed using kp
+    if (u_out > 254){ //u_out cannot be more than 255...
+        return 255;
+    }
+    else if (u_out < -254){ //...or less than -254
+        return -255;
+    }
+    else
+        return u_out;
+}
+
+void ISR_readEncoder(){
+
+    a = digitalRead(ENCA);    //Read the pin for encoder A only to fulfill WP description...
+    b = digitalRead(ENCB);    //Read the pin for encoder B
+    if(b > 0){                //If encoder B is already high it means the rotation is CW
+        pos++;                  //add 1 to the position
     }
     else{                            //If encoder A is high and B is low it means the rotation is CCW
-        position--;                  //subtract 1 from the position
+        pos--;                  //subtract 1 from the position
     }
-}
-
-
-void getInput()
-{
-    Serial.println("Please insert the desired position(0-359):");             //prompt to the user
-    while (Serial.available() == 0) {}                                           //Wait for the user to insert input
-    degreeInput = (int) Serial.parseInt();                                       //Save user input
-}
-
-void fix_bug() {
-    // Start the motor, just a tiny little bit because otherwise TinkerCad dies....
-    analogWrite(motorB, 10);
-    delay(1000);// TinkerCad bug
-    analogWrite(motorA, 10);
-}
-
-// Tinker cad bug fix 2
-void fix_bug2() {
-    // Stop the motor, but not to zero because then TinkerCad dies....
-    analogWrite(motorA, 10);
-    delay(1000);// TinkerCad...bug
-    analogWrite(motorB, 10);
 }
