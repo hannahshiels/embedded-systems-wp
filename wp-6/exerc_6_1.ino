@@ -3,6 +3,8 @@
 // Exercise 1
 // Submission code: 947236
 
+//Tinkercad link: https://www.tinkercad.com/things/b12WVXzj9o2-wp6exerc1/editel
+
 
 #define ENCA 2   //the pin for encoder A
 #define ENCB 3   //The pin for encoder B
